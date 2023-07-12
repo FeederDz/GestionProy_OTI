@@ -6,6 +6,7 @@ package Interfaz;
 
 import Recursos.Conexion;
 import Recursos.controlador;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -16,23 +17,25 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.WindowConstants;
 
 public class Cronograma extends javax.swing.JFrame {
 
     controlador control = new controlador();
     ArrayList<Integer> id_proyectos = new ArrayList<>();
-   
+
     public Cronograma() {
         initComponents();
         setLocationRelativeTo(null);
         llenarComboBox();
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     private void llenarComboBox() {
-        String consulta = "SELECT NOMBRE FROM CARTERA_PROYECTOS WHERE estado = 'PROCESO'";
+        String consulta = "SELECT NOMBRE FROM CARTERA_PROYECTOS WHERE estado = 'EN PROCESO' order by cartera_proyectos.prioridad asc";
         jComboProyectos.removeAllItems();
         control.LlenarJcombobox(consulta, 1, jComboProyectos);
-        control.llenarIds(id_proyectos); 
+        control.llenarIds(id_proyectos);
     }
 
     @SuppressWarnings("unchecked")
@@ -40,34 +43,57 @@ public class Cronograma extends javax.swing.JFrame {
     private void initComponents() {
 
         jSlider1 = new javax.swing.JSlider();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
-        jTextField10 = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jComboProyectos = new javax.swing.JComboBox<>();
-        jProgressBar1 = new javax.swing.JProgressBar();
-        jProgressBar2 = new javax.swing.JProgressBar();
-        jProgressBar3 = new javax.swing.JProgressBar();
-        jProgressBar4 = new javax.swing.JProgressBar();
-        jProgressBar5 = new javax.swing.JProgressBar();
+        jActIniCrBtn = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        JBarraInicio = new javax.swing.JProgressBar();
+        JBarraPlanificación = new javax.swing.JProgressBar();
+        jTextField4 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField5 = new javax.swing.JTextField();
+        jTextField6 = new javax.swing.JTextField();
+        JBarraEjecucion = new javax.swing.JProgressBar();
+        JBarraSeguimiento = new javax.swing.JProgressBar();
+        jTextField8 = new javax.swing.JTextField();
+        jTextField7 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jTextField9 = new javax.swing.JTextField();
+        jTextField10 = new javax.swing.JTextField();
+        JBarraCierre = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel10.setText("PROYECTO:");
+
+        jComboProyectos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboProyectos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboProyectosActionPerformed(evt);
+            }
+        });
+
+        jActIniCrBtn.setText("Actualizar");
+        jActIniCrBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jActIniCrBtnActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setText("Porcentaje");
+
+        jLabel8.setText("Fecha de Fin");
+
+        jLabel7.setText("Fecha de Inicio");
 
         jLabel1.setText("ETAPA");
 
@@ -81,28 +107,13 @@ public class Cronograma extends javax.swing.JFrame {
 
         jLabel6.setText("CIERRE");
 
-        jLabel7.setText("Fecha de Inicio");
-
-        jLabel8.setText("Fecha de Fin");
-
-        jLabel9.setText("Porcentaje");
-
-        jLabel10.setText("PROYECTO:");
-
-        jComboProyectos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboProyectos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboProyectosActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -139,14 +150,20 @@ public class Cronograma extends javax.swing.JFrame {
                                 .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(45, 45, 45)
-                                .addComponent(jLabel9))
-                            .addComponent(jProgressBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jProgressBar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jProgressBar4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jProgressBar5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(JBarraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jActIniCrBtn))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(JBarraPlanificación, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(JBarraEjecucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(JBarraSeguimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(45, 45, 45)
+                                        .addComponent(jLabel9))
+                                    .addComponent(JBarraCierre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addGap(18, 18, 18)
@@ -156,21 +173,19 @@ public class Cronograma extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(0, 0, Short.MAX_VALUE)
-                                                .addComponent(jLabel10)
-                                                .addGap(93, 93, 93))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jComboProyectos)
-                                                .addGap(90, 90, 90)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jLabel10)
+                                            .addComponent(jComboProyectos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jActIniCrBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(50, 50, 50)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -182,19 +197,19 @@ public class Cronograma extends javax.swing.JFrame {
                                             .addComponent(jLabel2)
                                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(jProgressBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(JBarraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(21, 21, 21)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel3)
                                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jProgressBar2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(JBarraPlanificación, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(17, 17, 17)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jProgressBar3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(JBarraEjecucion, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -208,9 +223,9 @@ public class Cronograma extends javax.swing.JFrame {
                             .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jProgressBar5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(JBarraSeguimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jProgressBar4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(JBarraCierre, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(46, 46, 46))
         );
 
@@ -218,17 +233,240 @@ public class Cronograma extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboProyectosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboProyectosActionPerformed
-        int cod_proyecto = 0;
-        int filaseleccionada = jComboProyectos.getSelectedIndex();
-        try{
-        //if(filaseleccionada > -1){
-        cod_proyecto = id_proyectos.get(filaseleccionada);
-            System.out.println("index: " + filaseleccionada);
-            System.out.println("codigo actual: " + cod_proyecto);
-        //}
-        }catch(Exception ex){}
+        System.out.println("fuera de try");
+        try {
 
+            System.out.println("eventocombocbox");
+            int filaseleccionada = jComboProyectos.getSelectedIndex();
+            int cod_proyecto = 0;
+            cod_proyecto = id_proyectos.get(filaseleccionada);
+            System.out.println(filaseleccionada);
+            String[] fechas = new String[10];
+            System.out.println("codigo seleccionado:" + cod_proyecto);
+            System.out.println(filaseleccionada);
+
+            fechas[0] = control.DevolverRegistroBD("Select fecha_ini from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'INICIO'", 1);
+            fechas[1] = control.DevolverRegistroBD("Select fecha_fin from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'INICIO'", 1);
+            fechas[2] = control.DevolverRegistroBD("Select fecha_ini from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'PLANIFICACION'", 1);
+            fechas[3] = control.DevolverRegistroBD("Select fecha_fin from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'PLANIFICACION'", 1);
+            fechas[4] = control.DevolverRegistroBD("Select fecha_ini from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'EJECUCION'", 1);
+            fechas[5] = control.DevolverRegistroBD("Select fecha_fin from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'EJECUCION'", 1);
+            fechas[6] = control.DevolverRegistroBD("Select fecha_ini from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'SEGUIMIENTO'", 1);
+            fechas[7] = control.DevolverRegistroBD("Select fecha_fin from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'SEGUIMIENTO'", 1);
+            fechas[8] = control.DevolverRegistroBD("Select fecha_ini from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'CIERRE'", 1);
+            fechas[9] = control.DevolverRegistroBD("Select fecha_fin from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'CIERRE'", 1);
+
+            jTextField1.setText(fechas[0]);
+            jTextField2.setText(fechas[1]);
+            jTextField3.setText(fechas[2]);
+            jTextField4.setText(fechas[3]);
+            jTextField5.setText(fechas[4]);
+            jTextField6.setText(fechas[5]);
+            jTextField7.setText(fechas[6]);
+            jTextField8.setText(fechas[7]);
+            jTextField9.setText(fechas[8]);
+            jTextField10.setText(fechas[9]);
+
+            llenarBarra();
+
+        } catch (Exception e) {
+        }
+        // TODO add your handling code here:
     }//GEN-LAST:event_jComboProyectosActionPerformed
+    public int avanceporc(String fechai, String fechaf) {
+        LocalDate fechaActual = LocalDate.now();
+        float avancepor;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        LocalDate fechaFin = LocalDate.parse(fechaf, formatter);
+        LocalDate fechaInicio = LocalDate.parse(fechai, formatter);
+
+        long diasDiferencia = fechaFin.toEpochDay() - fechaInicio.toEpochDay();
+
+        long diasTranscurridos = fechaActual.toEpochDay() - fechaInicio.toEpochDay();
+
+        avancepor = (diasTranscurridos * 100) / diasDiferencia;
+        if (avancepor > 100) {
+            avancepor = 100;
+        } else if (avancepor < 0) {
+            avancepor = 0;
+        }
+        Integer avancePorcentaje = (int) avancepor;
+        return avancePorcentaje;
+
+    }
+
+    private void llenarBarra() {
+        JBarraInicio.setValue(0);
+        JBarraInicio.setStringPainted(true);
+
+        JBarraPlanificación.setValue(0);
+        JBarraPlanificación.setStringPainted(true);
+
+        JBarraEjecucion.setValue(0);
+        JBarraEjecucion.setStringPainted(true);
+
+        JBarraSeguimiento.setValue(0);
+        JBarraSeguimiento.setStringPainted(true);
+
+        JBarraCierre.setValue(0);
+        JBarraCierre.setStringPainted(true);
+        System.out.println("Iniciobarra");
+        CallableStatement sql;
+        int filaseleccionada = jComboProyectos.getSelectedIndex();
+        int cod_proyecto = 0;
+        try {
+            cod_proyecto = id_proyectos.get(filaseleccionada);
+            System.out.println("captura id");
+
+
+            /*JBarraInicio.setUI(new BasicProgressBarUI() {
+                protected Color getSelectionBackground() {
+                    return Color.RED; // Cambiar el color de la selección
+                }
+
+                protected Color getSelectionForeground() {
+                    return Color.WHITE; // Cambiar el color del texto de la selección
+                }
+            });*/
+            int avanINI = avanceporc(jTextField1.getText(), jTextField2.getText());
+            int avanPLANI = avanceporc(jTextField3.getText(), jTextField4.getText());
+            int avanEJEC = avanceporc(jTextField5.getText(), jTextField6.getText());
+            int avanSEGUI = avanceporc(jTextField7.getText(), jTextField8.getText());
+            int avanCIER = avanceporc(jTextField9.getText(), jTextField10.getText());
+
+            try {
+                sql = Conexion.getConexion().prepareCall("CALL sp_modificar_avance(?,?,?)");
+                sql.setInt(1, cod_proyecto);
+                sql.setString(2, "INICIO");
+                sql.setInt(3, avanINI);
+                sql.executeUpdate();
+            } catch (SQLException ex) {
+                Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                sql = Conexion.getConexion().prepareCall("CALL sp_modificar_avance(?,?,?)");
+                sql.setInt(1, cod_proyecto);
+                sql.setString(2, "PLANIFICACION");
+                sql.setInt(3, avanPLANI);
+                sql.executeUpdate();
+            } catch (SQLException ex) {
+                Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                sql = Conexion.getConexion().prepareCall("CALL sp_modificar_avance(?,?,?)");
+                sql.setInt(1, cod_proyecto);
+                sql.setString(2, "EJECUCION");
+                sql.setInt(3, avanEJEC);
+                sql.executeUpdate();
+            } catch (SQLException ex) {
+                Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                sql = Conexion.getConexion().prepareCall("CALL sp_modificar_avance(?,?,?)");
+                sql.setInt(1, cod_proyecto);
+                sql.setString(2, "SEGUIMIENTO");
+                sql.setInt(3, avanSEGUI);
+                sql.executeUpdate();
+            } catch (SQLException ex) {
+                Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                sql = Conexion.getConexion().prepareCall("CALL sp_modificar_avance(?,?,?)");
+                sql.setInt(1, cod_proyecto);
+                sql.setString(2, "CIERRE");
+                sql.setInt(3, avanCIER);
+                sql.executeUpdate();
+            } catch (SQLException ex) {
+                Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            JBarraInicio.setValue(avanINI);
+            JBarraInicio.setStringPainted(true);
+
+            JBarraPlanificación.setValue(avanPLANI);
+            JBarraPlanificación.setStringPainted(true);
+
+            JBarraEjecucion.setValue(avanEJEC);
+            JBarraEjecucion.setStringPainted(true);
+
+            JBarraSeguimiento.setValue(avanSEGUI);
+            JBarraSeguimiento.setStringPainted(true);
+
+            JBarraCierre.setValue(avanCIER);
+            JBarraCierre.setStringPainted(true);
+        } catch (Exception e) {
+
+        }
+    }
+    private void jActIniCrBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jActIniCrBtnActionPerformed
+        CallableStatement sql;
+        int filaseleccionada = jComboProyectos.getSelectedIndex();
+        int cod_proyecto = 0;
+        if (filaseleccionada != -1) {
+            cod_proyecto = id_proyectos.get(filaseleccionada);
+        } else {
+            System.out.println("La volviste a cagar");
+        }
+        try {
+            sql = Conexion.getConexion().prepareCall("CALL sp_modificar_fechaxetapa(?,?,?,?)");
+            sql.setInt(1, cod_proyecto);
+            sql.setString(2, "INICIO");
+            sql.setString(3, jTextField1.getText());
+            sql.setString(4, jTextField2.getText());
+            sql.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            sql = Conexion.getConexion().prepareCall("CALL sp_modificar_fechaxetapa(?,?,?,?)");
+            sql.setInt(1, cod_proyecto);
+            sql.setString(2, "PLANIFICACION");
+            sql.setString(3, jTextField3.getText());
+            sql.setString(4, jTextField4.getText());
+            sql.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            sql = Conexion.getConexion().prepareCall("CALL sp_modificar_fechaxetapa(?,?,?,?)");
+            sql.setInt(1, cod_proyecto);
+            sql.setString(2, "EJECUCION");
+            sql.setString(3, jTextField5.getText());
+            sql.setString(4, jTextField6.getText());
+            sql.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            sql = Conexion.getConexion().prepareCall("CALL sp_modificar_fechaxetapa(?,?,?,?)");
+            sql.setInt(1, cod_proyecto);
+            sql.setString(2, "SEGUIMIENTO");
+            sql.setString(3, jTextField7.getText());
+            sql.setString(4, jTextField8.getText());
+            sql.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            sql = Conexion.getConexion().prepareCall("CALL sp_modificar_fechaxetapa(?,?,?,?)");
+            sql.setInt(1, cod_proyecto);
+            sql.setString(2, "CIERRE");
+            sql.setString(3, jTextField9.getText());
+            sql.setString(4, jTextField10.getText());
+            sql.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        llenarBarra();
+
+    }//GEN-LAST:event_jActIniCrBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -267,6 +505,12 @@ public class Cronograma extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JProgressBar JBarraCierre;
+    private javax.swing.JProgressBar JBarraEjecucion;
+    private javax.swing.JProgressBar JBarraInicio;
+    private javax.swing.JProgressBar JBarraPlanificación;
+    private javax.swing.JProgressBar JBarraSeguimiento;
+    private javax.swing.JButton jActIniCrBtn;
     private javax.swing.JComboBox<String> jComboProyectos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -278,11 +522,6 @@ public class Cronograma extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JProgressBar jProgressBar1;
-    private javax.swing.JProgressBar jProgressBar2;
-    private javax.swing.JProgressBar jProgressBar3;
-    private javax.swing.JProgressBar jProgressBar4;
-    private javax.swing.JProgressBar jProgressBar5;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
@@ -298,7 +537,7 @@ public class Cronograma extends javax.swing.JFrame {
 }
 // PROBAR ESTO LUEGO  --->
 // Arreglo para almacenar las consultas
-        /*String[] etapas = {"INICIO", "PLANIFICACION", "EJECUCION", "SEGUIMIENTO", "CIERRE"};
+/*String[] etapas = {"INICIO", "PLANIFICACION", "EJECUCION", "SEGUIMIENTO", "CIERRE"};
         String[] consultas = new String[etapas.length * 2]; // Arreglo para almacenar las consultas
         String[] resultados = new String[etapas.length * 2]; // Arreglo para almacenar los resultados
 

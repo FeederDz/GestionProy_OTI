@@ -5,9 +5,12 @@
 package Interfaz;
 
 import Recursos.Conexion;
+import Recursos.controlador;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.WindowConstants;
@@ -18,9 +21,8 @@ import javax.swing.WindowConstants;
  */
 public class CrearProyecto extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CrearProyecto
-     */
+    controlador control = new controlador();
+    
     public CrearProyecto() {
         initComponents();
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -40,19 +42,21 @@ public class CrearProyecto extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        EstadoCbox = new javax.swing.JComboBox<>();
-        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         guardarB = new javax.swing.JButton();
         fechainicio_text = new javax.swing.JTextField();
-        fechafin_text = new javax.swing.JTextField();
         gestor_text = new javax.swing.JTextField();
         sponsor_text = new javax.swing.JTextField();
         nombre_text = new javax.swing.JTextField();
         codproy_text = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        etapaCbox = new javax.swing.JComboBox<>();
+        prioriSpin = new javax.swing.JSpinner();
+        EstadoCbox = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        FaseCbox = new javax.swing.JComboBox<>();
+        fechafin_text = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
 
         EstadoCbox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EN PROCESO", "FINALIZADO", "CANCELADO", " " }));
 
@@ -66,13 +70,7 @@ public class CrearProyecto extends javax.swing.JFrame {
 
         jLabel4.setText("Gestor");
 
-        EstadoCbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EN PROCESO", "FINALIZADO", "CANCELADO", " " }));
-
-        jLabel5.setText("Estado");
-
         jLabel6.setText("Fecha Inicio");
-
-        jLabel7.setText("Fecha Fin");
 
         guardarB.setText("Guardar");
         guardarB.addActionListener(new java.awt.event.ActionListener() {
@@ -81,9 +79,19 @@ public class CrearProyecto extends javax.swing.JFrame {
             }
         });
 
-        jLabel8.setText("Etapa");
+        jLabel8.setText("Prioridad");
 
-        etapaCbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "INICIO", "PLANIFICACION", "EJECUCION", "SEGUIMIENTO", "CIERRE" }));
+        prioriSpin.setModel(new javax.swing.SpinnerNumberModel(1, 1, 3, 1));
+
+        EstadoCbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EN PROCESO", "FINALIZADO", "CANCELADO", " " }));
+
+        jLabel5.setText("Estado");
+
+        jLabel9.setText("Fase");
+
+        FaseCbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "INICIO", "PLANIFICACION", "EJECUCION", "SEGUIMIENTO", "CIERRE" }));
+
+        jLabel7.setText("Fecha Fin");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -94,72 +102,86 @@ public class CrearProyecto extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3))
-                        .addGap(67, 67, 67)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(21, 21, 21)
+                                .addComponent(nombre_text)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel5))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jLabel3))
+                                        .addGap(67, 67, 67)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(gestor_text)
+                                            .addComponent(sponsor_text)
+                                            .addComponent(fechainicio_text, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(92, 92, 92)
+                                                .addComponent(jLabel7))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jLabel9))))
+                                    .addComponent(jLabel6))
+                                .addGap(18, 18, 18)))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(gestor_text)
-                            .addComponent(sponsor_text, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
-                        .addGap(55, 55, 55)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(fechainicio_text, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                            .addComponent(fechafin_text)))
+                            .addComponent(EstadoCbox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(fechafin_text)
+                            .addComponent(FaseCbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
+                        .addComponent(jLabel1)
                         .addGap(21, 21, 21)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(nombre_text)
-                            .addComponent(codproy_text, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
-                        .addGap(55, 55, 55)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel8))
-                        .addGap(55, 55, 55)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(EstadoCbox, 0, 120, Short.MAX_VALUE)
-                            .addComponent(etapaCbox, 0, 120, Short.MAX_VALUE))))
-                .addGap(22, 22, 22))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(228, 228, 228)
+                        .addComponent(codproy_text, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel8)
+                        .addGap(18, 18, 18)
+                        .addComponent(prioriSpin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(79, 79, 79))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(guardarB)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(235, 235, 235))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(59, 59, 59)
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(codproy_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(EstadoCbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabel8)
+                    .addComponent(prioriSpin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(nombre_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
-                    .addComponent(etapaCbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel5)
+                    .addComponent(EstadoCbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nombre_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel6)
-                    .addComponent(fechainicio_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sponsor_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(sponsor_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
+                    .addComponent(FaseCbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel7)
                     .addComponent(fechafin_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(gestor_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(fechainicio_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(guardarB)
-                .addGap(19, 19, 19))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
@@ -168,27 +190,83 @@ public class CrearProyecto extends javax.swing.JFrame {
     private void guardarBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarBActionPerformed
         CallableStatement sql;
         try {
-            sql = Conexion.getConexion().prepareCall("call sp_crear_nuevo_proyecto(?,?,?,?,?,?,?,?,?)");
-            sql.setString(1,codproy_text.getText());
-            sql.setString(2,nombre_text.getText());
-            sql.setString(3,sponsor_text.getText());
-            sql.setString(4,gestor_text.getText());
-            sql.setString(5,etapaCbox.getSelectedItem().toString());
-            sql.setString(6,fechainicio_text.getText());
-            sql.setString(7,fechafin_text.getText());
-            //AVANCE ?)
-            //sql.setInt(,);
+
+            String fechain = fechainicio_text.getText();
+            String fechafin = fechafin_text.getText();
+            sql = Conexion.getConexion().prepareCall("CALL sp_crear_nuevo_proyecto(?,?,?,?,?,?,?,?,?,?)");
+            sql.setString(1, codproy_text.getText());
+            sql.setString(2, nombre_text.getText());
+            sql.setString(3, sponsor_text.getText());
+            sql.setString(4, gestor_text.getText());
+            sql.setString(5, FaseCbox.getSelectedItem().toString());
+            sql.setString(6, fechainicio_text.getText());
+            sql.setString(7, fechafin_text.getText());
+            sql.setInt(8, avanceporc(fechain, fechafin));
             sql.setString(9, EstadoCbox.getSelectedItem().toString());
+            sql.setInt(10, (int) prioriSpin.getValue());
             sql.executeUpdate();
+
         } catch (SQLException ex) {
             Logger.getLogger(CrearProyecto.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }//GEN-LAST:event_guardarBActionPerformed
+    
+     public int avanceporc(String fechai, String fechaf) {
+        LocalDate fechaActual = LocalDate.now();
+        float avancepor;
 
-    /**
-     * @param args the command line arguments
-     */
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        LocalDate fechaFin = LocalDate.parse(fechaf, formatter);
+        LocalDate fechaInicio = LocalDate.parse(fechai, formatter);
+
+        long diasDiferencia = fechaFin.toEpochDay() - fechaInicio.toEpochDay();
+
+        long diasTranscurridos = fechaActual.toEpochDay() - fechaInicio.toEpochDay();
+
+        avancepor = (diasTranscurridos * 100) / diasDiferencia;
+        if(avancepor>100){
+            avancepor=100;
+        } else if(avancepor<0){
+            avancepor=0;
+        }  
+        Integer avancePorcentaje = (int) avancepor;
+        return avancePorcentaje;
+    }
+     
+    //FALTA LLENAR
+    public void LlenarDatosModif(int id) {
+        String consulta = "select codigo_proyecto, nombre, sponsor, gestor, prioridad, fecha_ini, fecha_fin, fase, estado from cartera_proyectos where cartera_proyectos.id = '" + id + "'";
+        String fase;
+        String estado;
+        codproy_text.setText(control.DevolverRegistroBD(consulta, 1));
+        nombre_text.setText(control.DevolverRegistroBD(consulta, 2));
+        sponsor_text.setText(control.DevolverRegistroBD(consulta, 3));
+        gestor_text.setText(control.DevolverRegistroBD(consulta, 4));
+        //prioriSpin.setValue(control.DevolverRegistroBD(consulta, 5));
+        fechainicio_text.setText(control.DevolverRegistroBD(consulta, 6));
+        fechafin_text.setText(control.DevolverRegistroBD(consulta, 7));
+        //FaseCbox.setSelectedItem(control.DevolverRegistroBD(consulta, 8));
+        fase = control.DevolverRegistroBD(consulta, 8);
+        //EstadoCbox.setSelectedItem(control.DevolverRegistroBD(consulta, 9));
+        estado = control.DevolverRegistroBD(consulta, 9);
+        if("INICIO".equals(fase)){
+            FaseCbox.setSelectedIndex(0);
+        } else if("PLANIFICACION".equals(fase)) {
+            FaseCbox.setSelectedIndex(1);
+        }else if("EJECUCION".equals(fase)) {
+            FaseCbox.setSelectedIndex(2);
+        }else if("SEGUIMIENTO".equals(fase)) {
+            FaseCbox.setSelectedIndex(3);
+        }else{
+            FaseCbox.setSelectedIndex(4);}
+        System.out.println(id);
+    }
+     
+    
+    
+    
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -224,8 +302,8 @@ public class CrearProyecto extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> EstadoCbox;
     private javax.swing.JComboBox<String> EstadoCbox1;
+    private javax.swing.JComboBox<String> FaseCbox;
     private javax.swing.JTextField codproy_text;
-    private javax.swing.JComboBox<String> etapaCbox;
     private javax.swing.JTextField fechafin_text;
     private javax.swing.JTextField fechainicio_text;
     private javax.swing.JTextField gestor_text;
@@ -238,7 +316,9 @@ public class CrearProyecto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField nombre_text;
+    private javax.swing.JSpinner prioriSpin;
     private javax.swing.JTextField sponsor_text;
     // End of variables declaration//GEN-END:variables
 }
