@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -225,5 +227,27 @@ public class controlador extends Conexion {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public int avanceporc(String fechai, String fechaf) {
+        LocalDate fechaActual = LocalDate.now();
+        float avancepor;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        LocalDate fechaFin = LocalDate.parse(fechaf, formatter);
+        LocalDate fechaInicio = LocalDate.parse(fechai, formatter);
+
+        long diasDiferencia = fechaFin.toEpochDay() - fechaInicio.toEpochDay();
+
+        long diasTranscurridos = fechaActual.toEpochDay() - fechaInicio.toEpochDay();
+
+        avancepor = (diasTranscurridos * 100) / diasDiferencia;
+        if (avancepor > 100) {
+            avancepor = 100;
+        } else if (avancepor < 0) {
+            avancepor = 0;
+        }
+        Integer avancePorcentaje = (int) avancepor;
+        return avancePorcentaje;
     }
 }

@@ -1,11 +1,16 @@
 package Interfaz;
 
+import Recursos.Conexion;
 import Recursos.RenderTable;
 import javax.swing.table.DefaultTableModel;
 import Recursos.controlador;
+import java.sql.CallableStatement;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.text.DefaultFormatter;
@@ -42,8 +47,8 @@ public class Principal extends javax.swing.JFrame {
         this.Tabla_Proyectos.setDefaultRenderer(Object.class, new RenderTable());
         Tabla_Proyectos.setModel(TablaControl_proyectos);
         control.llenarIds(id_proyectos);
+        System.out.println(id_proyectos);
         cargarTabla();
-        System.out.println(id_proyectos); 
         JModificarBtn.setEnabled(false); 
     }
     @SuppressWarnings("unchecked")
@@ -55,7 +60,6 @@ public class Principal extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jSpinner1 = new javax.swing.JSpinner();
         JModificarBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -111,22 +115,17 @@ public class Principal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton2)
-                                .addGap(36, 36, 36)
-                                .addComponent(JModificarBtn)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton3)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton1))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 880, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(408, 408, 408)
-                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton2)
+                        .addGap(36, 36, 36)
+                        .addComponent(JModificarBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton3)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 880, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -140,9 +139,7 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(JModificarBtn))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         pack();
@@ -151,12 +148,33 @@ public class Principal extends javax.swing.JFrame {
     private void cargarTabla() {
         control.LimpiarJtable(TablaControl_proyectos);
         //ACA HACER PRUEBAS CON LA TABLA
+        actualizar_fechas();
         control.PruebaLlenarProgressBar(TablaControl_proyectos, "SELECT  prioridad, codigo_proyecto , nombre, sponsor, gestor, fase, fecha_ini, fecha_fin  FROM CARTERA_PROYECTOS "
                 + "WHERE estado = 'EN PROCESO' order by cartera_proyectos.prioridad asc", 8);
-    
+        
         //ESTADO SUSPENDIDO/ PARALIZADO
     }
-
+    
+    private void actualizar_fechas(){
+        CallableStatement sql;
+        String f_ini, f_fin; 
+        int avance = 0;
+        for (int i= 0; i<id_proyectos.size();i++){
+            System.out.println(id_proyectos.size());
+            try{               
+                f_ini = control.DevolverRegistroBD("Select fecha_ini from cartera_proyectos where cartera_proyectos.id = '"+ id_proyectos.get(i) + "'",1);
+                f_fin = control.DevolverRegistroBD("Select fecha_fin from cartera_proyectos where cartera_proyectos.id = '"+ id_proyectos.get(i) + "'",1);
+                avance = control.avanceporc(f_ini, f_fin);                
+                sql = Conexion.getConexion().prepareCall("CALL asignar_avance(?,?)");
+                sql.setInt(1, id_proyectos.get(i));
+                sql.setInt(2,avance);
+                sql.executeUpdate();}
+            catch(Exception ex){
+                Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);}            
+        }     
+    }
+    
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         cargarTabla();
         id_proyectos.clear();
@@ -169,9 +187,9 @@ public class Principal extends javax.swing.JFrame {
         int row = evt.getY() / Tabla_Proyectos.getRowHeight();
         int codigo_proyecto;
         this.fila_proy=row;
-        System.out.println("Fila: " + row);
+        /*System.out.println("Fila: " + row);
         System.out.println("Fila capturada: " + fila_proy);
-        System.out.println("Identificador proyecto: " + id_proyectos.get(row));
+        System.out.println("Identificador proyecto: " + id_proyectos.get(row));*/
         if (row < Tabla_Proyectos.getRowCount() && row >= 0 && column < Tabla_Proyectos.getColumnCount() && column >= 0) {
             JModificarBtn.setEnabled(true);
             Object value = Tabla_Proyectos.getValueAt(row, column);
@@ -181,8 +199,8 @@ public class Principal extends javax.swing.JFrame {
                 //Capturamos el ROW e invocamos las actividades con el id que se guardo en el arrayList
                 //System.out.println("Tengo este row:" + row);
                 codigo_proyecto = id_proyectos.get(row);
-                System.out.println("Fila es:" + row);
-                System.out.println("Codigo es:" + codigo_proyecto);
+                /*System.out.println("Fila es:" + row);
+                System.out.println("Codigo es:" + codigo_proyecto);*/
                 //System.out.println("tengo este id:" + codigo_proyecto);
                 invocarAct(codigo_proyecto);
             }
@@ -206,7 +224,7 @@ public class Principal extends javax.swing.JFrame {
         modifProy.setVisible(true);
         modifProy.setLocationRelativeTo(null);
         modifProy.LlenarDatosModif(id_proyectos.get(fila_proy));
-        System.out.println(id_proyectos.get(fila_proy));
+        //System.out.println(id_proyectos.get(fila_proy));
     }//GEN-LAST:event_JModificarBtnActionPerformed
 
     private void invocarAct(int cod_proy) {
@@ -231,6 +249,5 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSpinner jSpinner1;
     // End of variables declaration//GEN-END:variables
 }

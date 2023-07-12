@@ -273,7 +273,7 @@ public class Cronograma extends javax.swing.JFrame {
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboProyectosActionPerformed
-    public int avanceporc(String fechai, String fechaf) {
+   /* public int avanceporc(String fechai, String fechaf) {
         LocalDate fechaActual = LocalDate.now();
         float avancepor;
 
@@ -294,8 +294,7 @@ public class Cronograma extends javax.swing.JFrame {
         }
         Integer avancePorcentaje = (int) avancepor;
         return avancePorcentaje;
-
-    }
+    }*/
 
     private void llenarBarra() {
         JBarraInicio.setValue(0);
@@ -330,11 +329,11 @@ public class Cronograma extends javax.swing.JFrame {
                     return Color.WHITE; // Cambiar el color del texto de la selección
                 }
             });*/
-            int avanINI = avanceporc(jTextField1.getText(), jTextField2.getText());
-            int avanPLANI = avanceporc(jTextField3.getText(), jTextField4.getText());
-            int avanEJEC = avanceporc(jTextField5.getText(), jTextField6.getText());
-            int avanSEGUI = avanceporc(jTextField7.getText(), jTextField8.getText());
-            int avanCIER = avanceporc(jTextField9.getText(), jTextField10.getText());
+            int avanINI = control.avanceporc(jTextField1.getText(), jTextField2.getText());
+            int avanPLANI = control.avanceporc(jTextField3.getText(), jTextField4.getText());
+            int avanEJEC = control.avanceporc(jTextField5.getText(), jTextField6.getText());
+            int avanSEGUI = control.avanceporc(jTextField7.getText(), jTextField8.getText());
+            int avanCIER = control.avanceporc(jTextField9.getText(), jTextField10.getText());
 
             try {
                 sql = Conexion.getConexion().prepareCall("CALL sp_modificar_avance(?,?,?)");
