@@ -11,13 +11,13 @@ public class Conexion {
     public static PreparedStatement pps;
     public static Connection getConexion(){
         
-        String url = "jdbc:postgresql://localhost:5432/ProyectiosOTI";
+        String url = "jdbc:postgresql://localhost:5432/ProyectosOTI";
         String usuario = "postgres";
-        String contraseña = "MakanakyOTI";
+        String contraseña = "PINKYPANKY";
         try{
             Connection connexion = DriverManager.getConnection(url,usuario,contraseña);
             return connexion;
-        } catch(SQLException ex){
+        } catch(SQLException ex){   
             System.out.println(ex.toString());
             return null;
         }
