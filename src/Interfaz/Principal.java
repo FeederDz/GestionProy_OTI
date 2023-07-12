@@ -220,11 +220,12 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void JModificarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JModificarBtnActionPerformed
-        CrearProyecto modifProy = new CrearProyecto();
+                                 
+        ModificarProyecto modifProy = new ModificarProyecto(id_proyectos.size());
         modifProy.setVisible(true);
         modifProy.setLocationRelativeTo(null);
         modifProy.LlenarDatosModif(id_proyectos.get(fila_proy));
-        //System.out.println(id_proyectos.get(fila_proy));
+        System.out.println(id_proyectos.get(fila_proy));
     }//GEN-LAST:event_JModificarBtnActionPerformed
 
     private void invocarAct(int cod_proy) {
