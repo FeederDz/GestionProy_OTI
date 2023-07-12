@@ -155,7 +155,6 @@ public class Principal extends javax.swing.JFrame {
                 + "WHERE estado = 'EN PROCESO' order by cartera_proyectos.prioridad asc", 8);
     
         //ESTADO SUSPENDIDO/ PARALIZADO
-        System.out.println("HOLA MUNDO");
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

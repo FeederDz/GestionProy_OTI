@@ -28,7 +28,6 @@ public class Actividades extends javax.swing.JFrame {
         //System.out.println("tengo este cod:" + codigo_proy);
         FechasCorte();
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        System.out.println("Holk,a");
 
     }
 
