@@ -40,7 +40,8 @@ public class Principal extends javax.swing.JFrame {
         Tabla_Proyectos.setModel(TablaControl_proyectos);
         control.llenarIds(id_proyectos);
         cargarTabla();
-        System.out.println(id_proyectos);        
+        System.out.println(id_proyectos);    
+        System.out.println("PROBANDO GIT DAAAAAAAAAAAAAAAA");
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
