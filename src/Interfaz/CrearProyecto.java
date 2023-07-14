@@ -83,7 +83,7 @@ public class CrearProyecto extends javax.swing.JFrame {
 
         prioriSpin.setModel(new javax.swing.SpinnerNumberModel(1, 1, 3, 1));
 
-        EstadoCbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EN PROCESO", "FINALIZADO", "SUSPENDIDO", "CANCELADO", " " }));
+        EstadoCbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EN PROCESO", "FINALIZADO", "SUSPENDIDO", "CANCELADO" }));
 
         jLabel5.setText("Estado");
 
@@ -201,7 +201,7 @@ public class CrearProyecto extends javax.swing.JFrame {
             sql.setString(5, FaseCbox.getSelectedItem().toString());
             sql.setString(6, fechainicio_text.getText());
             sql.setString(7, fechafin_text.getText());
-            sql.setInt(8, avanceporc(fechain, fechafin));
+            sql.setInt(8, control.avanceporc(fechain, fechafin));
             sql.setString(9, EstadoCbox.getSelectedItem().toString());
             sql.setInt(10, (int) prioriSpin.getValue());
             sql.executeUpdate();
@@ -210,30 +210,7 @@ public class CrearProyecto extends javax.swing.JFrame {
             Logger.getLogger(CrearProyecto.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_guardarBActionPerformed
-    
-     public int avanceporc(String fechai, String fechaf) {
-        LocalDate fechaActual = LocalDate.now();
-        float avancepor;
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-        LocalDate fechaFin = LocalDate.parse(fechaf, formatter);
-        LocalDate fechaInicio = LocalDate.parse(fechai, formatter);
-
-        long diasDiferencia = fechaFin.toEpochDay() - fechaInicio.toEpochDay();
-
-        long diasTranscurridos = fechaActual.toEpochDay() - fechaInicio.toEpochDay();
-
-        avancepor = (diasTranscurridos * 100) / diasDiferencia;
-        if(avancepor>100){
-            avancepor=100;
-        } else if(avancepor<0){
-            avancepor=0;
-        }  
-        Integer avancePorcentaje = (int) avancepor;
-        return avancePorcentaje;
-    }
-     
+        
     //FALTA LLENAR
     public void LlenarDatosModif(int id) {
         String consulta = "select codigo_proyecto, nombre, sponsor, gestor, prioridad, fecha_ini, fecha_fin, fase, estado from cartera_proyectos where cartera_proyectos.id = '" + id + "'";

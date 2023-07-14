@@ -233,16 +233,16 @@ public class Cronograma extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboProyectosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboProyectosActionPerformed
-        System.out.println("fuera de try");
+        //System.out.println("fuera de try");
         try {
 
-            System.out.println("eventocombocbox");
+            //System.out.println("eventocombocbox");
             int filaseleccionada = jComboProyectos.getSelectedIndex();
             int cod_proyecto = 0;
             cod_proyecto = id_proyectos.get(filaseleccionada);
-            System.out.println(filaseleccionada);
+            //System.out.println(filaseleccionada);
             String[] fechas = new String[10];
-            System.out.println("codigo seleccionado:" + cod_proyecto);
+            //System.out.println("codigo seleccionado:" + cod_proyecto);
             System.out.println(filaseleccionada);
 
             fechas[0] = control.DevolverRegistroBD("Select fecha_ini from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'INICIO'", 1);
@@ -311,13 +311,13 @@ public class Cronograma extends javax.swing.JFrame {
 
         JBarraCierre.setValue(0);
         JBarraCierre.setStringPainted(true);
-        System.out.println("Iniciobarra");
+        //System.out.println("Iniciobarra");
         CallableStatement sql = null;
         int filaseleccionada = jComboProyectos.getSelectedIndex();
         int cod_proyecto = 0;
         try {
             cod_proyecto = id_proyectos.get(filaseleccionada);
-            System.out.println("captura id");
+            //System.out.println("captura id");
 
 
             /*JBarraInicio.setUI(new BasicProgressBarUI() {

@@ -4,7 +4,12 @@
  */
 package Interfaz;
 
+import Recursos.Conexion;
 import Recursos.controlador;
+import java.sql.CallableStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.WindowConstants;
 
@@ -15,17 +20,16 @@ import javax.swing.WindowConstants;
 public class ModificarProyecto extends javax.swing.JFrame {
 
     controlador control = new controlador();
-    int cantproy;
-    /**
-     * Creates new form ModificarProyecto
-     */
-    public ModificarProyecto(int cantproyectos) {
+    int cantproy, id_proy;
+
+    public ModificarProyecto(int cantproyectos, int id_proyecto) {
+        this.cantproy=cantproyectos;
+        this.id_proy = id_proyecto;
         initComponents();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        this.cantproy=cantproyectos;
         SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, 1, cantproyectos, 1);
-        jSpinPrioridad.setModel(spinnerModel); 
+        prioriSpin.setModel(spinnerModel); 
     }
 
     private ModificarProyecto() {
@@ -48,18 +52,18 @@ public class ModificarProyecto extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
+        codproy_text = new javax.swing.JTextField();
+        nombre_text = new javax.swing.JTextField();
+        sponsor_text = new javax.swing.JTextField();
+        gestor_text = new javax.swing.JTextField();
+        fechainicio_text = new javax.swing.JTextField();
+        fechafin_text = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jSpinPrioridad = new javax.swing.JSpinner();
-        jEstadoCbox = new javax.swing.JComboBox<>();
-        jFaseCbox = new javax.swing.JComboBox<>();
+        prioriSpin = new javax.swing.JSpinner();
+        EstadoCbox = new javax.swing.JComboBox<>();
+        FaseCbox = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -82,9 +86,9 @@ public class ModificarProyecto extends javax.swing.JFrame {
 
         jLabel9.setText("Fase");
 
-        jEstadoCbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EN PROCESO", "FINALIZADO", "SUSPENDIDO", "CANCELADO" }));
+        EstadoCbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EN PROCESO", "FINALIZADO", "SUSPENDIDO", "CANCELADO" }));
 
-        jFaseCbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "INICIO", "PLANIFICACION", "EJECUCION", "SEGUIMIENTO", "CIERRE" }));
+        FaseCbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "INICIO", "PLANIFICACION", "EJECUCION", "SEGUIMIENTO", "CIERRE" }));
 
         jButton1.setText("Actualizar proyecto");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -108,14 +112,14 @@ public class ModificarProyecto extends javax.swing.JFrame {
                     .addComponent(jLabel6))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nombre_text, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING))
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(gestor_text, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                        .addComponent(sponsor_text, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(codproy_text, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING)))
+                        .addComponent(fechafin_text, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                        .addComponent(fechainicio_text, javax.swing.GroupLayout.Alignment.LEADING)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -125,9 +129,9 @@ public class ModificarProyecto extends javax.swing.JFrame {
                             .addComponent(jLabel9))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jFaseCbox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jEstadoCbox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jSpinPrioridad)))
+                            .addComponent(FaseCbox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(EstadoCbox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(prioriSpin)))
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(66, 66, 66))
         );
@@ -137,34 +141,34 @@ public class ModificarProyecto extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(codproy_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
-                    .addComponent(jSpinPrioridad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(prioriSpin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nombre_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
-                    .addComponent(jEstadoCbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(EstadoCbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sponsor_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
-                    .addComponent(jFaseCbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(FaseCbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(gestor_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fechainicio_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fechafin_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
@@ -172,44 +176,64 @@ public class ModificarProyecto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+        CallableStatement sql;
+        try {
+            String fechain = fechainicio_text.getText();
+            String fechafin = fechafin_text.getText();
+            sql = Conexion.getConexion().prepareCall("CALL sp_modificar_proy(?,?,?,?,?,?,?,?,?,?,?)");
+            sql.setInt(1, id_proy);
+            sql.setString(2, codproy_text.getText());
+            sql.setString(3, nombre_text.getText());
+            sql.setString(4, sponsor_text.getText());
+            sql.setString(5, gestor_text.getText());
+            sql.setString(6, FaseCbox.getSelectedItem().toString());
+            sql.setString(7, fechainicio_text.getText());
+            sql.setString(8, fechafin_text.getText());
+            sql.setInt(9, control.avanceporc(fechain, fechafin));
+            sql.setString(10, EstadoCbox.getSelectedItem().toString());
+            sql.setInt(11, (int) prioriSpin.getValue());
+            sql.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(CrearProyecto.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
-public void LlenarDatosModif(int id) {
+    public void LlenarDatosModif(int id) {
         String consulta = "select codigo_proyecto, nombre, sponsor, gestor, fecha_ini, fecha_fin, prioridad, estado, fase from cartera_proyectos where cartera_proyectos.id = '" + id + "'";
         String fase;
         String estado;
         int prioridad;
-        jTextField1.setText(control.DevolverRegistroBD(consulta, 1));
-        jTextField2.setText(control.DevolverRegistroBD(consulta, 2));
-        jTextField3.setText(control.DevolverRegistroBD(consulta, 3));
-        jTextField4.setText(control.DevolverRegistroBD(consulta, 4));
-        jTextField5.setText(control.DevolverRegistroBD(consulta, 5));
-        jTextField6.setText(control.DevolverRegistroBD(consulta, 6));
-        jSpinPrioridad.setValue(prioridad=Integer.parseInt(control.DevolverRegistroBD(consulta, 7)));
+        codproy_text.setText(control.DevolverRegistroBD(consulta, 1));
+        nombre_text.setText(control.DevolverRegistroBD(consulta, 2));
+        sponsor_text.setText(control.DevolverRegistroBD(consulta, 3));
+        gestor_text.setText(control.DevolverRegistroBD(consulta, 4));
+        fechainicio_text.setText(control.DevolverRegistroBD(consulta, 5));
+        fechafin_text.setText(control.DevolverRegistroBD(consulta, 6));
+        prioriSpin.setValue(prioridad=Integer.parseInt(control.DevolverRegistroBD(consulta, 7)));
         //FaseCbox.setSelectedItem(control.DevolverRegistroBD(consulta, 8));
         
         estado = control.DevolverRegistroBD(consulta, 8);
         fase = control.DevolverRegistroBD(consulta, 9);
         //EstadoCbox.setSelectedItem(control.DevolverRegistroBD(consulta, 9));
         
-        if ("INICIO".equals(fase)) {
-            jFaseCbox.setSelectedIndex(0);
-        } else if ("PLANIFICACION".equals(fase)) {
-            jFaseCbox.setSelectedIndex(1);
-        } else if ("EJECUCION".equals(fase)) {
-            jFaseCbox.setSelectedIndex(2);
-        } else if ("SEGUIMIENTO".equals(fase)) {
-            jFaseCbox.setSelectedIndex(3);
-        } else {
-            jFaseCbox.setSelectedIndex(4);
+        if (null == fase) {
+            FaseCbox.setSelectedIndex(4);
+        } else switch (fase) {
+            case "INICIO" -> FaseCbox.setSelectedIndex(0);
+            case "PLANIFICACION" -> FaseCbox.setSelectedIndex(1);
+            case "EJECUCION" -> FaseCbox.setSelectedIndex(2);
+            case "SEGUIMIENTO" -> FaseCbox.setSelectedIndex(3);
+            default -> FaseCbox.setSelectedIndex(4);
         }
         
-        if ("EN PROCESO".equals(estado)) {
-            jEstadoCbox.setSelectedIndex(0);
-        } else if ("SUSPENDIDO".equals(estado)) {
-            jEstadoCbox.setSelectedIndex(1);
-        } else {
-            jEstadoCbox.setSelectedIndex(2);
+        if (null == estado) {
+            EstadoCbox.setSelectedIndex(3);
+        } else switch (estado) {
+            case "EN PROCESO" -> EstadoCbox.setSelectedIndex(0);
+            case "FINALIZADO" -> EstadoCbox.setSelectedIndex(1);
+            case "SUSPENDIDO" -> EstadoCbox.setSelectedIndex(2);
+            case "CANCELADO" -> EstadoCbox.setSelectedIndex(3);
+            default -> EstadoCbox.setSelectedIndex(3);
         }
         
         
@@ -253,9 +277,13 @@ public void LlenarDatosModif(int id) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> EstadoCbox;
+    private javax.swing.JComboBox<String> FaseCbox;
+    private javax.swing.JTextField codproy_text;
+    private javax.swing.JTextField fechafin_text;
+    private javax.swing.JTextField fechainicio_text;
+    private javax.swing.JTextField gestor_text;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jEstadoCbox;
-    private javax.swing.JComboBox<String> jFaseCbox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -265,12 +293,8 @@ public void LlenarDatosModif(int id) {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JSpinner jSpinPrioridad;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField nombre_text;
+    private javax.swing.JSpinner prioriSpin;
+    private javax.swing.JTextField sponsor_text;
     // End of variables declaration//GEN-END:variables
 }
