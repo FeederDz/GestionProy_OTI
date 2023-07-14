@@ -11,9 +11,9 @@ public class Conexion {
     public static PreparedStatement pps;
     public static Connection getConexion(){
         
-        String url = "jdbc:postgresql://localhost:5432/ProyectosOTI";
-        String usuario = "postgres";
-        String contraseña = "PINKYPANKY";
+        String url = "jdbc:sqlserver://localhost:1433;databaseName=ProyectosOTI";
+        String usuario = "sa";
+        String contraseña = "PinkyPanky2023";
         try{
             Connection connexion = DriverManager.getConnection(url,usuario,contraseña);
             return connexion;
