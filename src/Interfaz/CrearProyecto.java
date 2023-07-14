@@ -83,7 +83,7 @@ public class CrearProyecto extends javax.swing.JFrame {
 
         prioriSpin.setModel(new javax.swing.SpinnerNumberModel(1, 1, 3, 1));
 
-        EstadoCbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EN PROCESO", "FINALIZADO", "CANCELADO", " " }));
+        EstadoCbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EN PROCESO", "FINALIZADO", "SUSPENDIDO", "CANCELADO", " " }));
 
         jLabel5.setText("Estado");
 

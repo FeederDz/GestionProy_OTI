@@ -273,7 +273,7 @@ public class Cronograma extends javax.swing.JFrame {
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboProyectosActionPerformed
-   /* public int avanceporc(String fechai, String fechaf) {
+    /* public int avanceporc(String fechai, String fechaf) {
         LocalDate fechaActual = LocalDate.now();
         float avancepor;
 
@@ -312,7 +312,7 @@ public class Cronograma extends javax.swing.JFrame {
         JBarraCierre.setValue(0);
         JBarraCierre.setStringPainted(true);
         System.out.println("Iniciobarra");
-        CallableStatement sql;
+        CallableStatement sql = null;
         int filaseleccionada = jComboProyectos.getSelectedIndex();
         int cod_proyecto = 0;
         try {
@@ -343,7 +343,13 @@ public class Cronograma extends javax.swing.JFrame {
                 sql.executeUpdate();
             } catch (SQLException ex) {
                 Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }finally{
+                    if (sql != null) {
+                        try {
+                            sql.close();
+                        }catch (SQLException e) {} 
+                    }
+                } 
             try {
                 sql = Conexion.getConexion().prepareCall("CALL sp_modificar_avance(?,?,?)");
                 sql.setInt(1, cod_proyecto);
@@ -352,7 +358,13 @@ public class Cronograma extends javax.swing.JFrame {
                 sql.executeUpdate();
             } catch (SQLException ex) {
                 Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }finally{
+                    if (sql != null) {
+                        try {
+                            sql.close();
+                        }catch (SQLException e) {} 
+                    }
+            } 
             try {
                 sql = Conexion.getConexion().prepareCall("CALL sp_modificar_avance(?,?,?)");
                 sql.setInt(1, cod_proyecto);
@@ -361,7 +373,13 @@ public class Cronograma extends javax.swing.JFrame {
                 sql.executeUpdate();
             } catch (SQLException ex) {
                 Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }finally{
+                    if (sql != null) {
+                        try {
+                            sql.close();
+                        }catch (SQLException e) {} 
+                    }
+            } 
             try {
                 sql = Conexion.getConexion().prepareCall("CALL sp_modificar_avance(?,?,?)");
                 sql.setInt(1, cod_proyecto);
@@ -370,7 +388,13 @@ public class Cronograma extends javax.swing.JFrame {
                 sql.executeUpdate();
             } catch (SQLException ex) {
                 Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }finally{
+                    if (sql != null) {
+                        try {
+                            sql.close();
+                        }catch (SQLException e) {} 
+                    }
+            } 
             try {
                 sql = Conexion.getConexion().prepareCall("CALL sp_modificar_avance(?,?,?)");
                 sql.setInt(1, cod_proyecto);
@@ -379,7 +403,13 @@ public class Cronograma extends javax.swing.JFrame {
                 sql.executeUpdate();
             } catch (SQLException ex) {
                 Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }finally{
+                    if (sql != null) {
+                        try {
+                            sql.close();
+                        }catch (SQLException e) {} 
+                    }
+            } 
 
             JBarraInicio.setValue(avanINI);
             JBarraInicio.setStringPainted(true);
@@ -400,7 +430,7 @@ public class Cronograma extends javax.swing.JFrame {
         }
     }
     private void jActIniCrBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jActIniCrBtnActionPerformed
-        CallableStatement sql;
+        CallableStatement sql = null;
         int filaseleccionada = jComboProyectos.getSelectedIndex();
         int cod_proyecto = 0;
         if (filaseleccionada != -1) {
@@ -417,6 +447,12 @@ public class Cronograma extends javax.swing.JFrame {
             sql.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (sql != null) {
+                try {
+                    sql.close();
+                } catch (SQLException e) {}
+            }
         }
 
         try {
@@ -428,6 +464,12 @@ public class Cronograma extends javax.swing.JFrame {
             sql.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (sql != null) {
+                try {
+                    sql.close();
+                } catch (SQLException e) {}
+            }
         }
 
         try {
@@ -439,6 +481,12 @@ public class Cronograma extends javax.swing.JFrame {
             sql.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (sql != null) {
+                try {
+                    sql.close();
+                } catch (SQLException e) {}
+            }
         }
 
         try {
@@ -450,6 +498,12 @@ public class Cronograma extends javax.swing.JFrame {
             sql.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (sql != null) {
+                try {
+                    sql.close();
+                } catch (SQLException e) {}
+            }
         }
 
         try {
@@ -461,6 +515,12 @@ public class Cronograma extends javax.swing.JFrame {
             sql.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (sql != null) {
+                try {
+                    sql.close();
+                } catch (SQLException e) {}
+            }
         }
 
         llenarBarra();

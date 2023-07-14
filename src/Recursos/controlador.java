@@ -38,32 +38,62 @@ public class controlador extends Conexion {
                 int id = rs.getInt("id");
                 id_proyectos.add(id);
             }
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {}
+       /* finally{
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {}
+            }
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException e) {}
+            }
+        }*/
     }
 
     public ResultSet DevolverRegistro(String sql) {
         try {
             this.st = this.getConexion().createStatement();
             this.rs = this.st.executeQuery(sql);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        }catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());}
+        /*finally{
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {}
+            }
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException e) {}
+            }
+        } */       
         return this.rs;
     }
 
     public String DevolverRegistroBD(String sql, int pos) {
         String capturar = "";
         try {
-
             this.rs = DevolverRegistro(sql);
             while (this.rs.next()) {
                 capturar = this.rs.getString(pos);
             }
-
-        } catch (Exception e) {
-
-        }
+        }catch (Exception e) {}
+        /*finally{
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {}
+            }
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException e) {}
+            }
+        }*/        
         return capturar;
     }
 
@@ -75,8 +105,14 @@ public class controlador extends Conexion {
             if (this.rs.next()) {
                 rs = this.rs.getString(pos);
             }
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {}
+        /*finally{
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException e) {}
+            }
+        }*/        
         return rs;
     }
 
@@ -111,8 +147,19 @@ public class controlador extends Conexion {
                 capturar = this.rs.getString(pos);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+            JOptionPane.showMessageDialog(null, e.getMessage());}
+        /*finally{
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {}
+            }
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException e) {}
+            }
+        }*/
         return capturar;
     }
 
@@ -158,9 +205,19 @@ public class controlador extends Conexion {
                 int avance = rs.getInt("AVANCE");
                 avances_proy.add(avance);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {e.printStackTrace();}
+        /*finally{
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {}
+            }
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException e) {}
+            }
+        }*/
 
         Object[] datos = new Object[tamanio + 2];
         try {
@@ -179,9 +236,19 @@ public class controlador extends Conexion {
                 progressBar.setValue(avances_proy.get(k));
                 k++;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {e.printStackTrace();}
+       /* finally{
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {}
+            }
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException e) {}
+            }
+        }  */      
     }
 
     public void TablaSpinner(DefaultTableModel mdt, String sql, int tamanio) {
@@ -196,9 +263,19 @@ public class controlador extends Conexion {
                 int avance = rs.getInt("AVANCE");
                 avances_proy.add(avance);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {e.printStackTrace();}
+       /* finally{
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {}
+            }
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException e) {}
+            }
+        }*/
 
         Object[] datos = new Object[tamanio + 3];
         try {
@@ -224,9 +301,19 @@ public class controlador extends Conexion {
                 progressBar.setValue(avances_proy.get(k));
                 k++;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {e.printStackTrace();}
+        /*finally{
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {}
+            }
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException e) {}
+            }
+        }*/
     }
     
     public int avanceporc(String fechai, String fechaf) {

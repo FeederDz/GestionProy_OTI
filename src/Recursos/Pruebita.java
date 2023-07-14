@@ -6,5 +6,6 @@ public class Pruebita {
     controlador control = new controlador();
     String Nombre = control.DevolverRegistroBD("Select actividad from act_realizada",1);
     System.out.println(Nombre);
+
     } 
 }

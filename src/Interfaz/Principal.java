@@ -148,31 +148,102 @@ public class Principal extends javax.swing.JFrame {
     private void cargarTabla() {
         control.LimpiarJtable(TablaControl_proyectos);
         //ACA HACER PRUEBAS CON LA TABLA
-        actualizar_fechas();
+        actualizar_avance();
+        actualizar_etapas();
         control.PruebaLlenarProgressBar(TablaControl_proyectos, "SELECT  prioridad, codigo_proyecto , nombre, sponsor, gestor, fase, fecha_ini, fecha_fin  FROM CARTERA_PROYECTOS "
                 + "WHERE estado = 'EN PROCESO' order by cartera_proyectos.prioridad asc", 8);
         
         //ESTADO SUSPENDIDO/ PARALIZADO
     }
     
-    private void actualizar_fechas(){
-        CallableStatement sql;
+    private void actualizar_avance(){
+        CallableStatement sql = null;
         String f_ini, f_fin; 
         int avance = 0;
         for (int i= 0; i<id_proyectos.size();i++){
-            System.out.println(id_proyectos.size());
+            //System.out.println(id_proyectos.size());
             try{               
                 f_ini = control.DevolverRegistroBD("Select fecha_ini from cartera_proyectos where cartera_proyectos.id = '"+ id_proyectos.get(i) + "'",1);
+                System.out.println("fecha ini: " + f_ini);
                 f_fin = control.DevolverRegistroBD("Select fecha_fin from cartera_proyectos where cartera_proyectos.id = '"+ id_proyectos.get(i) + "'",1);
+                System.out.println("fecha fin: " + f_fin);
                 avance = control.avanceporc(f_ini, f_fin);                
                 sql = Conexion.getConexion().prepareCall("CALL asignar_avance(?,?)");
                 sql.setInt(1, id_proyectos.get(i));
                 sql.setInt(2,avance);
                 sql.executeUpdate();}
-            catch(Exception ex){
-                Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);}            
+            catch(Exception ex){Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);}            
+            finally{
+                if (sql != null) {
+                    try {
+                        sql.close();
+                    } catch (SQLException e) {}
+                }
+            }
         }     
     }
+    
+    private void actualizar_etapas(){
+        
+        //CONDICIONALES POR SI NO EXISTE AVANCE POR ETAPA EN EL PROYECTO
+        CallableStatement sql = null, sql_fin;
+        String etapa ="", etapa_asignada = "", consistencia; 
+        int avance_num = 0;
+        String consulta;
+        
+        for(int j=0;j<id_proyectos.size();j++){
+            consulta = "select cartera_proyectos.fase,porcxetapa.porcentaje from porcxetapa " +
+                        " inner join cartera_proyectos " +
+                        " ON porcxetapa.id = cartera_proyectos.id " +
+                        " where cartera_proyectos.id = '"+id_proyectos.get(j) +"' and  cartera_proyectos.fase = porcxetapa.etapa";
+            //System.out.println(consulta);
+            etapa  = control.DevolverRegistroBD(consulta, 1);
+            //System.out.println(consulta);
+            consistencia = control.DevolverRegistroBD(consulta, 2);
+            if("".equals(consistencia)){
+                break;
+            }//NO RETROCEDE EN ETAPA    
+            avance_num  = Integer.parseInt(control.DevolverRegistroBD(consulta, 2));
+            //System.out.println("ETAPA DEL PROYECTO "+j+ " " + etapa);
+            //System.out.println("AVANCE DEL PROYECTO "+j+ " " + avance_num);
+            if(avance_num == 100){
+                try{
+                        if(etapa.equals("INICIO")){
+                            etapa_asignada = "PLANIFICACION";
+                            //System.out.println("LE CAMBIE A" +etapa_asignada );
+                        }else if(etapa.equals("PLANIFICACION")){
+                            etapa_asignada = "EJECUCION";
+                            //System.out.println("LE CAMBIE A E");
+                        }else if(etapa.equals("EJECUCION")){
+                            etapa_asignada = "SEGUIMIENTO";
+                            //System.out.println("LE CAMBIE A S");
+                        }else if(etapa.equals("SEGUIMIENTO")){
+                            etapa_asignada = "CIERRE";
+                            //System.out.println("LE CAMBIE A C");
+                        }else if(etapa.equals("CIERRE")){
+                            sql_fin = Conexion.getConexion().prepareCall("CALL finalizar_proyecto(?)");
+                            sql_fin.setInt(1,id_proyectos.get(j));
+                            //System.out.println("LE CAMBIE A FINALIZADO");
+                        }else{ System.out.println("QUE FUE MANO, CHECA LA ETAPA/ESTADO.");}
+                    sql = Conexion.getConexion().prepareCall("CALL asignar_etapa(?,?)");
+                    sql.setInt(1,id_proyectos.get(j));
+                    //System.out.println("Al id " + id_proyectos.get(j) );
+                    sql.setString(2,etapa_asignada);
+                    //System.out.println("Con etapa " + etapa_asignada);
+                    sql.executeUpdate();
+                    //System.out.println("CHECA LA BD");
+                }catch(Exception ex){
+                }finally{
+                    if (sql != null) {
+                        try {
+                            sql.close();
+                        }catch (SQLException e) {} 
+                    }
+                }   
+            }  
+        }
+    }
+    
     
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

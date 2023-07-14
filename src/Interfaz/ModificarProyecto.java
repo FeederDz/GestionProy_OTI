@@ -82,7 +82,7 @@ public class ModificarProyecto extends javax.swing.JFrame {
 
         jLabel9.setText("Fase");
 
-        jEstadoCbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EN PROCESO", "SUSPENDIDO", "CANCELADO" }));
+        jEstadoCbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EN PROCESO", "FINALIZADO", "SUSPENDIDO", "CANCELADO" }));
 
         jFaseCbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "INICIO", "PLANIFICACION", "EJECUCION", "SEGUIMIENTO", "CIERRE" }));
 
@@ -172,7 +172,7 @@ public class ModificarProyecto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 public void LlenarDatosModif(int id) {
         String consulta = "select codigo_proyecto, nombre, sponsor, gestor, fecha_ini, fecha_fin, prioridad, estado, fase from cartera_proyectos where cartera_proyectos.id = '" + id + "'";
