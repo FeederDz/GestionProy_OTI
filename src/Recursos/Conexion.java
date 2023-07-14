@@ -11,12 +11,14 @@ public class Conexion {
     public static PreparedStatement pps;
     public static Connection getConexion(){
         
-        String url = "jdbc:sqlserver://localhost:1433;databaseName=ProyectosOTI";
-        String usuario = "sa";
-        String contraseña = "PinkyPanky2023";
+        String conexionUrl = "jdbc:sqlserver://localhost:1433;" 
+                + "database=ProyectosOTI;" 
+                + "user=sa;"
+                + "password=PinkyPanky2023;"
+                + "TrustServerCertificate = True";
         try{
-            Connection connexion = DriverManager.getConnection(url,usuario,contraseña);
-            return connexion;
+            Connection con = DriverManager.getConnection(conexionUrl);
+            return con;
         } catch(SQLException ex){   
             System.out.println(ex.toString());
             return null;
