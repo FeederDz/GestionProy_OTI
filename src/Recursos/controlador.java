@@ -29,13 +29,13 @@ public class controlador extends Conexion {
     int r;
 
     public void llenarIds(ArrayList<Integer> id_proyectos) {
-        String query = "SELECT CARTERA_PROYECTOS.id FROM CARTERA_PROYECTOS WHERE estado = 'EN PROCESO' order by cartera_proyectos.prioridad asc";
+        String query = "SELECT CARTERA_PROYECTOS.id_proy FROM CARTERA_PROYECTOS WHERE estado = 'EN PROCESO' order by cartera_proyectos.prioridad asc";
         try {
             this.st = this.getConexion().createStatement();
             this.rs = this.st.executeQuery(query);
 
             while (rs.next()) {
-                int id = rs.getInt("id");
+                int id = rs.getInt("id_proy");
                 id_proyectos.add(id);
             }
         } catch (Exception e) {}

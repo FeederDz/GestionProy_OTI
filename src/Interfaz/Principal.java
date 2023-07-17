@@ -162,9 +162,9 @@ public class Principal extends javax.swing.JFrame {
         for (int i= 0; i<id_proyectos.size();i++){
             //System.out.println(id_proyectos.size());
             try{               
-                f_ini = control.DevolverRegistroBD("Select fecha_ini from cartera_proyectos where cartera_proyectos.id = '"+ id_proyectos.get(i) + "'",1);
+                f_ini = control.DevolverRegistroBD("Select fecha_ini from cartera_proyectos where cartera_proyectos.id_proy = '"+ id_proyectos.get(i) + "'",1);
                 //System.out.println("fecha ini: " + f_ini);
-                f_fin = control.DevolverRegistroBD("Select fecha_fin from cartera_proyectos where cartera_proyectos.id = '"+ id_proyectos.get(i) + "'",1);
+                f_fin = control.DevolverRegistroBD("Select fecha_fin from cartera_proyectos where cartera_proyectos.id_proy = '"+ id_proyectos.get(i) + "'",1);
                 //System.out.println("fecha fin: " + f_fin);
                 avance = control.avanceporc(f_ini, f_fin);                
                 sql = Conexion.getConexion().prepareCall("{CALL asignar_avance(?,?)}");
@@ -194,8 +194,8 @@ public class Principal extends javax.swing.JFrame {
         for(int j=0;j<id_proyectos.size();j++){
             consulta = "select cartera_proyectos.fase,porcxetapa.porcentaje from porcxetapa " +
                         " inner join cartera_proyectos " +
-                        " ON porcxetapa.id = cartera_proyectos.id " +
-                        " where cartera_proyectos.id = '"+id_proyectos.get(j) +"' and  cartera_proyectos.fase = porcxetapa.etapa";
+                        " ON porcxetapa.id = cartera_proyectos.id_proy " +
+                        " where cartera_proyectos.id_proy = '"+id_proyectos.get(j) +"' and  cartera_proyectos.fase = porcxetapa.etapa";
             //System.out.println(consulta);
             etapa  = control.DevolverRegistroBD(consulta, 1);
             System.out.println(consulta);
@@ -222,7 +222,7 @@ public class Principal extends javax.swing.JFrame {
                             sql_fin = Conexion.getConexion().prepareCall("{CALL finalizar_proyecto(?)}");
                             sql_fin.setInt(1,id_proyectos.get(j));
                             sql_fin.executeUpdate();
-                            String sql_nom = "Select cartera_proyectos.nombre from cartera_proyectos where cartera_proyectos.id = '"+id_proyectos.get(j)+"'";
+                            String sql_nom = "Select cartera_proyectos.nombre from cartera_proyectos where cartera_proyectos.id_proy = '"+id_proyectos.get(j)+"'";
                             String nombre = control.DevolverRegistroBD(sql_nom, 1);
                             JOptionPane.showMessageDialog(null, "El proyecto " + nombre + " ha finalizado.");
                             //System.out.println("LE CAMBIE A FINALIZADO");
