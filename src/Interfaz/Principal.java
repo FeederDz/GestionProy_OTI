@@ -167,7 +167,7 @@ public class Principal extends javax.swing.JFrame {
                 f_fin = control.DevolverRegistroBD("Select fecha_fin from cartera_proyectos where cartera_proyectos.id = '"+ id_proyectos.get(i) + "'",1);
                 //System.out.println("fecha fin: " + f_fin);
                 avance = control.avanceporc(f_ini, f_fin);                
-                sql = Conexion.getConexion().prepareCall("CALL asignar_avance(?,?)");
+                sql = Conexion.getConexion().prepareCall("{CALL asignar_avance(?,?)}");
                 sql.setInt(1, id_proyectos.get(i));
                 sql.setInt(2,avance);
                 sql.executeUpdate();}
@@ -219,7 +219,7 @@ public class Principal extends javax.swing.JFrame {
                         case "SEGUIMIENTO" -> {etapa_asignada = "CIERRE"; cond = 1;}
                         //System.out.println("LE CAMBIE A C");
                         case "CIERRE" -> {
-                            sql_fin = Conexion.getConexion().prepareCall("CALL finalizar_proyecto(?)");
+                            sql_fin = Conexion.getConexion().prepareCall("{CALL finalizar_proyecto(?)}");
                             sql_fin.setInt(1,id_proyectos.get(j));
                             sql_fin.executeUpdate();
                             String sql_nom = "Select cartera_proyectos.nombre from cartera_proyectos where cartera_proyectos.id = '"+id_proyectos.get(j)+"'";
@@ -230,7 +230,7 @@ public class Principal extends javax.swing.JFrame {
                         default -> System.out.println("QUE FUE MANO, CHECA LA ETAPA/ESTADO.");
                     }
                     if(cond == 1){
-                    sql = Conexion.getConexion().prepareCall("CALL asignar_etapa(?,?)");
+                    sql = Conexion.getConexion().prepareCall("{CALL asignar_etapa(?,?)}");
                     sql.setInt(1,id_proyectos.get(j));
                     System.out.println("Al id " + id_proyectos.get(j) );
                     sql.setString(2,etapa_asignada);

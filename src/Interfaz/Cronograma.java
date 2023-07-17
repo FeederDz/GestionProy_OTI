@@ -336,7 +336,7 @@ public class Cronograma extends javax.swing.JFrame {
             int avanCIER = control.avanceporc(jTextField9.getText(), jTextField10.getText());
 
             try {
-                sql = Conexion.getConexion().prepareCall("CALL sp_modificar_avance(?,?,?)");
+                sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_avance(?,?,?)}");
                 sql.setInt(1, cod_proyecto);
                 sql.setString(2, "INICIO");
                 sql.setInt(3, avanINI);
@@ -351,7 +351,7 @@ public class Cronograma extends javax.swing.JFrame {
                     }
                 } 
             try {
-                sql = Conexion.getConexion().prepareCall("CALL sp_modificar_avance(?,?,?)");
+                sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_avance(?,?,?)}");
                 sql.setInt(1, cod_proyecto);
                 sql.setString(2, "PLANIFICACION");
                 sql.setInt(3, avanPLANI);
@@ -366,7 +366,7 @@ public class Cronograma extends javax.swing.JFrame {
                     }
             } 
             try {
-                sql = Conexion.getConexion().prepareCall("CALL sp_modificar_avance(?,?,?)");
+                sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_avance(?,?,?)}");
                 sql.setInt(1, cod_proyecto);
                 sql.setString(2, "EJECUCION");
                 sql.setInt(3, avanEJEC);
@@ -381,7 +381,7 @@ public class Cronograma extends javax.swing.JFrame {
                     }
             } 
             try {
-                sql = Conexion.getConexion().prepareCall("CALL sp_modificar_avance(?,?,?)");
+                sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_avance(?,?,?)}");
                 sql.setInt(1, cod_proyecto);
                 sql.setString(2, "SEGUIMIENTO");
                 sql.setInt(3, avanSEGUI);
@@ -396,7 +396,7 @@ public class Cronograma extends javax.swing.JFrame {
                     }
             } 
             try {
-                sql = Conexion.getConexion().prepareCall("CALL sp_modificar_avance(?,?,?)");
+                sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_avance(?,?,?)}");
                 sql.setInt(1, cod_proyecto);
                 sql.setString(2, "CIERRE");
                 sql.setInt(3, avanCIER);
@@ -439,7 +439,7 @@ public class Cronograma extends javax.swing.JFrame {
             System.out.println("La volviste a cagar");
         }
         try {
-            sql = Conexion.getConexion().prepareCall("CALL sp_modificar_fechaxetapa(?,?,?,?)");
+            sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_fechaxetapa(?,?,?,?)}");
             sql.setInt(1, cod_proyecto);
             sql.setString(2, "INICIO");
             sql.setString(3, jTextField1.getText());
@@ -456,7 +456,7 @@ public class Cronograma extends javax.swing.JFrame {
         }
 
         try {
-            sql = Conexion.getConexion().prepareCall("CALL sp_modificar_fechaxetapa(?,?,?,?)");
+            sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_fechaxetapa(?,?,?,?)}");
             sql.setInt(1, cod_proyecto);
             sql.setString(2, "PLANIFICACION");
             sql.setString(3, jTextField3.getText());
@@ -473,7 +473,7 @@ public class Cronograma extends javax.swing.JFrame {
         }
 
         try {
-            sql = Conexion.getConexion().prepareCall("CALL sp_modificar_fechaxetapa(?,?,?,?)");
+            sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_fechaxetapa(?,?,?,?)}");
             sql.setInt(1, cod_proyecto);
             sql.setString(2, "EJECUCION");
             sql.setString(3, jTextField5.getText());
@@ -490,7 +490,7 @@ public class Cronograma extends javax.swing.JFrame {
         }
 
         try {
-            sql = Conexion.getConexion().prepareCall("CALL sp_modificar_fechaxetapa(?,?,?,?)");
+            sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_fechaxetapa(?,?,?,?)}");
             sql.setInt(1, cod_proyecto);
             sql.setString(2, "SEGUIMIENTO");
             sql.setString(3, jTextField7.getText());
@@ -507,7 +507,7 @@ public class Cronograma extends javax.swing.JFrame {
         }
 
         try {
-            sql = Conexion.getConexion().prepareCall("CALL sp_modificar_fechaxetapa(?,?,?,?)");
+            sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_fechaxetapa(?,?,?,?)}");
             sql.setInt(1, cod_proyecto);
             sql.setString(2, "CIERRE");
             sql.setString(3, jTextField9.getText());
