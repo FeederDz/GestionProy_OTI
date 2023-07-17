@@ -26,7 +26,7 @@ public class Actividades extends javax.swing.JFrame {
         Act_proximas.setModel(TablaControl_act_proxima);
         //LlenarTablasAct(codigo_proy);
         //System.out.println("tengo este cod:" + codigo_proy);
-        FechasCorte();
+        //FechasCorte();
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         
     }
@@ -47,7 +47,9 @@ public class Actividades extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         Act_proximas = new javax.swing.JTable();
         buscar_fecha = new javax.swing.JButton();
-        fecha_cortecbox = new javax.swing.JComboBox<>();
+        tipocorte_cbox = new javax.swing.JComboBox<>();
+        aniocbox = new javax.swing.JComboBox<>();
+        mescbox = new javax.swing.JComboBox<>();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -97,12 +99,16 @@ public class Actividades extends javax.swing.JFrame {
             }
         });
 
-        fecha_cortecbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fecha Corte" }));
-        fecha_cortecbox.addActionListener(new java.awt.event.ActionListener() {
+        tipocorte_cbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PRIMERO", "SEGUNDO" }));
+        tipocorte_cbox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fecha_cortecboxActionPerformed(evt);
+                tipocorte_cboxActionPerformed(evt);
             }
         });
+
+        aniocbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2023", "2024", "2025", "2026" }));
+
+        mescbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SETIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -110,13 +116,16 @@ public class Actividades extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(buscar_fecha)
-                .addGap(31, 31, 31)
-                .addComponent(fecha_cortecbox, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(buscar_fecha)
+                        .addGap(31, 31, 31)
+                        .addComponent(tipocorte_cbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(55, 55, 55)
+                        .addComponent(mescbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(58, 58, 58)
+                        .addComponent(aniocbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -127,7 +136,9 @@ public class Actividades extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buscar_fecha)
-                    .addComponent(fecha_cortecbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tipocorte_cbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(aniocbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mescbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(55, 55, 55)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -139,17 +150,19 @@ public class Actividades extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buscar_fechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscar_fechaActionPerformed
+        String mes = mescbox.getSelectedItem().toString();
+        String anio = aniocbox.getSelectedItem().toString();
         control.LimpiarJtable(TablaControl_act_realizada);         
         control.LimpiarJtable(TablaControl_act_proxima);
-        String consulta = "select actividad from act_realizada where act_realizada.id_proy ="+ codigo_proy + " AND fecha_corte = '"+fecha_cortecbox.getSelectedItem().toString() + "'";
-        String consulta2 = "select actividad from act_proxima where act_proxima.id_proy ="+ codigo_proy + " AND fecha_corte = '"+fecha_cortecbox.getSelectedItem().toString() + "'";
+        String consulta = "select actividad from actividades where tipo_act='REALIZADA' AND id_proy="+codigo_proy+" AND corte='PRIMERO' AND mes='"+mes+"' AND año='"+anio+"'";
+        String consulta2 = "select actividad from actividades where tipo_act='PROXIMA' AND id_proy="+codigo_proy+" AND corte='PRIMERO' AND mes='"+mes+"' AND año='"+anio+"'";
         control.LlenarJtable(TablaControl_act_realizada, consulta, 1);
         control.LlenarJtable(TablaControl_act_proxima, consulta2, 1);
     }//GEN-LAST:event_buscar_fechaActionPerformed
 
-    private void fecha_cortecboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fecha_cortecboxActionPerformed
+    private void tipocorte_cboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipocorte_cboxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_fecha_cortecboxActionPerformed
+    }//GEN-LAST:event_tipocorte_cboxActionPerformed
     
     /*private void LlenarTablasAct(int codigo_proy){
         control.LimpiarJtable(TablaControl_act_realizada);           
@@ -160,10 +173,10 @@ public class Actividades extends javax.swing.JFrame {
                 ,1);  
     }*/
     
-    private void FechasCorte(){
+    private void Cortes(){
         String consulta = "select act_realizada.fecha_corte from act_realizada group by fecha_corte";
-        fecha_cortecbox.removeAllItems();
-        control.LlenarJcombobox(consulta,1,fecha_cortecbox);
+        tipocorte_cbox.removeAllItems();
+        control.LlenarJcombobox(consulta,1,tipocorte_cbox);
     }
     
     public static void main(String args[]) {
@@ -201,11 +214,13 @@ public class Actividades extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable Act_proximas;
     private javax.swing.JTable Act_realizadas;
+    private javax.swing.JComboBox<String> aniocbox;
     private javax.swing.JButton buscar_fecha;
-    private javax.swing.JComboBox<String> fecha_cortecbox;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable2;
+    private javax.swing.JComboBox<String> mescbox;
+    private javax.swing.JComboBox<String> tipocorte_cbox;
     // End of variables declaration//GEN-END:variables
 }
