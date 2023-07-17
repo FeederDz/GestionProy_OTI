@@ -10,6 +10,7 @@ import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.WindowConstants;
 
@@ -180,7 +181,7 @@ public class ModificarProyecto extends javax.swing.JFrame {
         try {
             String fechain = fechainicio_text.getText();
             String fechafin = fechafin_text.getText();
-            sql = Conexion.getConexion().prepareCall("CALL sp_modificar_proy(?,?,?,?,?,?,?,?,?,?,?)");
+            sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_proy(?,?,?,?,?,?,?,?,?,?,?)}");
             sql.setInt(1, id_proy);
             sql.setString(2, codproy_text.getText());
             sql.setString(3, nombre_text.getText());
@@ -197,9 +198,11 @@ public class ModificarProyecto extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(CrearProyecto.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        JOptionPane.showMessageDialog(null, "Registros Actualizados.");
     }//GEN-LAST:event_jButton1ActionPerformed
     public void LlenarDatosModif(int id) {
-        String consulta = "select codigo_proyecto, nombre, sponsor, gestor, fecha_ini, fecha_fin, prioridad, estado, fase from cartera_proyectos where cartera_proyectos.id = '" + id + "'";
+        String consulta = "select codigo_proyecto, nombre, sponsor, gestor, fecha_ini, fecha_fin, prioridad, estado, fase from cartera_proyectos where cartera_proyectos.id_proy = '" + id + "'";
         String fase;
         String estado;
         int prioridad;

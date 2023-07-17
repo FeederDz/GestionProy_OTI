@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
 /**
@@ -193,7 +194,7 @@ public class CrearProyecto extends javax.swing.JFrame {
 
             String fechain = fechainicio_text.getText();
             String fechafin = fechafin_text.getText();
-            sql = Conexion.getConexion().prepareCall("CALL sp_crear_nuevo_proyecto(?,?,?,?,?,?,?,?,?,?)");
+            sql = Conexion.getConexion().prepareCall("{CALL sp_crear_nuevo_proyecto(?,?,?,?,?,?,?,?,?,?)}");
             sql.setString(1, codproy_text.getText());
             sql.setString(2, nombre_text.getText());
             sql.setString(3, sponsor_text.getText());
@@ -209,6 +210,10 @@ public class CrearProyecto extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(CrearProyecto.class.getName()).log(Level.SEVERE, null, ex);
         }
+        JOptionPane.showMessageDialog(null, "Proyecto Creacon con Éxito.");
+        dispose();
+        
+        
     }//GEN-LAST:event_guardarBActionPerformed
         
     //FALTA LLENAR
