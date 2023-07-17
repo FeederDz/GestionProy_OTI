@@ -40,7 +40,7 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
         setLocationRelativeTo(null);
-        TablaControl_proyectos.setColumnIdentifiers(new String[]{"Prioridad" ,"Codigo Proyecto", "Nombre", "Sponsor", "Gestor", "Fase", "Fecha Inicio", "Fecha Fin", "Avance", "Actividades"});
+        TablaControl_proyectos.setColumnIdentifiers(new String[]{"Prioridad", "Codigo Proyecto", "Nombre", "Sponsor", "Gestor", "Fase", "Fecha Inicio", "Fecha Fin", "Avance", "Actividades"});
         // CORTES AUTOMATICOS MENSUALES POR QUINCENAS
         // ACTUALIZAR ETAPA DEL PROYECTO GENERAL
         //COLOCAR MENSAJE AL CREAR 
@@ -50,8 +50,9 @@ public class Principal extends javax.swing.JFrame {
         control.llenarIds(id_proyectos);
         System.out.println(id_proyectos);
         cargarTabla();
-        JModificarBtn.setEnabled(false); 
+        JModificarBtn.setEnabled(false);
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -59,7 +60,7 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabla_Proyectos = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jCrearProyBtn = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         JModificarBtn = new javax.swing.JButton();
 
@@ -90,10 +91,10 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Crear Proyecto");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jCrearProyBtn.setText("Crear Proyecto");
+        jCrearProyBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jCrearProyBtnActionPerformed(evt);
             }
         });
 
@@ -119,7 +120,7 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(jCrearProyBtn)
                         .addGap(36, 36, 36)
                         .addComponent(JModificarBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -135,7 +136,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2)
+                    .addComponent(jCrearProyBtn)
                     .addComponent(jButton3)
                     .addComponent(JModificarBtn))
                 .addGap(18, 18, 18)
@@ -145,111 +146,128 @@ public class Principal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-   
+
     private void cargarTabla() {
         control.LimpiarJtable(TablaControl_proyectos);
         //ACA HACER PRUEBAS CON LA TABLA
         actualizar_avance();
         control.PruebaLlenarProgressBar(TablaControl_proyectos, "SELECT  prioridad, codigo_proyecto , nombre, sponsor, gestor, fase, fecha_ini, fecha_fin  FROM CARTERA_PROYECTOS "
                 + "WHERE estado = 'EN PROCESO' order by cartera_proyectos.prioridad asc", 8);
-       
+
     }
-    
-    private void actualizar_avance(){
+
+    private void actualizar_avance() {
         CallableStatement sql = null;
-        String f_ini, f_fin; 
+        String f_ini, f_fin;
         int avance = 0;
-        for (int i= 0; i<id_proyectos.size();i++){
+        for (int i = 0; i < id_proyectos.size(); i++) {
             //System.out.println(id_proyectos.size());
-            try{               
-                f_ini = control.DevolverRegistroBD("Select fecha_ini from cartera_proyectos where cartera_proyectos.id_proy = '"+ id_proyectos.get(i) + "'",1);
+            try {
+                f_ini = control.DevolverRegistroBD("Select fecha_ini from cartera_proyectos where cartera_proyectos.id_proy = '" + id_proyectos.get(i) + "'", 1);
                 //System.out.println("fecha ini: " + f_ini);
-                f_fin = control.DevolverRegistroBD("Select fecha_fin from cartera_proyectos where cartera_proyectos.id_proy = '"+ id_proyectos.get(i) + "'",1);
+                f_fin = control.DevolverRegistroBD("Select fecha_fin from cartera_proyectos where cartera_proyectos.id_proy = '" + id_proyectos.get(i) + "'", 1);
                 //System.out.println("fecha fin: " + f_fin);
-                avance = control.avanceporc(f_ini, f_fin);                
+                avance = control.avanceporc(f_ini, f_fin);
                 sql = Conexion.getConexion().prepareCall("{CALL asignar_avance(?,?)}");
                 sql.setInt(1, id_proyectos.get(i));
-                sql.setInt(2,avance);
-                sql.executeUpdate();}
-            catch(Exception ex){Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);}            
-            finally{
+                sql.setInt(2, avance);
+                sql.executeUpdate();
+            } catch (Exception ex) {
+                Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
                 if (sql != null) {
                     try {
                         sql.close();
-                    } catch (SQLException e) {}
+                    } catch (SQLException e) {
+                    }
                 }
             }
         }
         actualizar_etapas();
     }
-    
-    private void actualizar_etapas(){
-        
+
+    private void actualizar_etapas() {
+
         //CONDICIONALES POR SI NO EXISTE AVANCE POR ETAPA EN EL PROYECTO
         CallableStatement sql = null, sql_fin;
-        String etapa ="", etapa_asignada = "", consistencia; 
+        String etapa = "", etapa_asignada = "", consistencia;
         int avance_num = 0, cond = 0;
         String consulta;
-        
-        for(int j=0;j<id_proyectos.size();j++){
-            consulta = "select cartera_proyectos.fase,porcxetapa.porcentaje from porcxetapa " +
-                        " inner join cartera_proyectos " +
-                        " ON porcxetapa.id = cartera_proyectos.id_proy " +
-                        " where cartera_proyectos.id_proy = '"+id_proyectos.get(j) +"' and  cartera_proyectos.fase = porcxetapa.etapa";
+
+        for (int j = 0; j < id_proyectos.size(); j++) {
+            consulta = "select cartera_proyectos.fase,porcxetapa.porcentaje from porcxetapa "
+                    + " inner join cartera_proyectos "
+                    + " ON porcxetapa.id = cartera_proyectos.id_proy "
+                    + " where cartera_proyectos.id_proy = '" + id_proyectos.get(j) + "' and  cartera_proyectos.fase = porcxetapa.etapa";
             //System.out.println(consulta);
-            etapa  = control.DevolverRegistroBD(consulta, 1);
+            etapa = control.DevolverRegistroBD(consulta, 1);
             //System.out.println(consulta);
             consistencia = control.DevolverRegistroBD(consulta, 2);
-            if("".equals(consistencia)){
+            if ("".equals(consistencia)) {
                 break;
             }//NO RETROCEDE EN ETAPA    
-            avance_num  = Integer.parseInt(control.DevolverRegistroBD(consulta, 2));
+            avance_num = Integer.parseInt(control.DevolverRegistroBD(consulta, 2));
             //System.out.println("ETAPA DEL PROYECTO "+id_proyectos.get(j)+ " " + etapa);
             //System.out.println("AVANCE DEL PROYECTO "+id_proyectos.get(j)+ " " + avance_num);
-            if(avance_num == 100){
-                try{
+            if (avance_num == 100) {
+                try {
                     switch (etapa) {
                         case "INICIO" -> {
                             etapa_asignada = "PLANIFICACION";
-                            System.out.println("LE CAMBIE A P "); cond = 1;}
-                        case "PLANIFICACION" -> {etapa_asignada = "EJECUCION"; cond = 1;}
+                            System.out.println("LE CAMBIE A P ");
+                            cond = 1;
+                        }
+                        case "PLANIFICACION" -> {
+                            etapa_asignada = "EJECUCION";
+                            cond = 1;
+                        }
                         //System.out.println("LE CAMBIE A E");
-                        case "EJECUCION" -> {etapa_asignada = "SEGUIMIENTO"; cond = 1;}
+                        case "EJECUCION" -> {
+                            etapa_asignada = "SEGUIMIENTO";
+                            cond = 1;
+                        }
                         //System.out.println("LE CAMBIE A S");
-                        case "SEGUIMIENTO" -> {etapa_asignada = "CIERRE"; cond = 1; System.out.println("LE CAMBIE A C");}
+                        case "SEGUIMIENTO" -> {
+                            etapa_asignada = "CIERRE";
+                            cond = 1;
+                            System.out.println("LE CAMBIE A C");
+                        }
                         //System.out.println("LE CAMBIE A C");
                         case "CIERRE" -> {
                             sql_fin = Conexion.getConexion().prepareCall("{CALL finalizar_proyecto(?)}");
-                            sql_fin.setInt(1,id_proyectos.get(j));
+                            sql_fin.setInt(1, id_proyectos.get(j));
                             sql_fin.executeUpdate();
-                            String sql_nom = "Select cartera_proyectos.nombre from cartera_proyectos where cartera_proyectos.id_proy = '"+id_proyectos.get(j)+"'";
+                            String sql_nom = "Select cartera_proyectos.nombre from cartera_proyectos where cartera_proyectos.id_proy = '" + id_proyectos.get(j) + "'";
                             String nombre = control.DevolverRegistroBD(sql_nom, 1);
                             JOptionPane.showMessageDialog(null, "El proyecto " + nombre + " ha finalizado.");
                             //System.out.println("LE CAMBIE A FINALIZADO");
                         }
-                        default -> System.out.println("QUE FUE MANO, CHECA LA ETAPA/ESTADO.");
+                        default ->
+                            System.out.println("QUE FUE MANO, CHECA LA ETAPA/ESTADO.");
                     }
                     System.out.println("COND = " + cond);
-                    if(cond == 1){
-                    try{
-                    sql = Conexion.getConexion().prepareCall("{CALL asignar_etapa(?,?)}");
-                    sql.setInt(1,id_proyectos.get(j));
-                    sql.setString(2,etapa_asignada);
-                    sql.executeUpdate();}catch(Exception ex){}
+                    if (cond == 1) {
+                        try {
+                            sql = Conexion.getConexion().prepareCall("{CALL asignar_etapa(?,?)}");
+                            sql.setInt(1, id_proyectos.get(j));
+                            sql.setString(2, etapa_asignada);
+                            sql.executeUpdate();
+                        } catch (Exception ex) {
+                        }
                     }
-                }catch(Exception ex){}/*finally{
+                } catch (Exception ex) {
+                }/*finally{
                     if (sql != null) {
                         try {
                             sql.close();
                         }catch (SQLException e) {} 
                     }
-                } */  
-            }  
-        } 
+                } */
+            }
+        }
     }
-    
-    
-    
+
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         cargarTabla();
         id_proyectos.clear();
@@ -261,7 +279,7 @@ public class Principal extends javax.swing.JFrame {
         int column = Tabla_Proyectos.getColumnModel().getColumnIndexAtX(evt.getX());
         int row = evt.getY() / Tabla_Proyectos.getRowHeight();
         int codigo_proyecto;
-        this.fila_proy=row;
+        this.fila_proy = row;
         /*System.out.println("Fila: " + row);
         System.out.println("Fila capturada: " + fila_proy);
         System.out.println("Identificador proyecto: " + id_proyectos.get(row));*/
@@ -282,11 +300,11 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_Tabla_ProyectosMouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jCrearProyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCrearProyBtnActionPerformed
         CrearProyecto crearProy = new CrearProyecto();
         crearProy.setVisible(true);
         crearProy.setLocationRelativeTo(null);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jCrearProyBtnActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         Cronograma cronograma = new Cronograma();
@@ -295,8 +313,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void JModificarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JModificarBtnActionPerformed
-                                 
-        ModificarProyecto modifProy = new ModificarProyecto(id_proyectos.size(),id_proyectos.get(fila_proy));
+
+        ModificarProyecto modifProy = new ModificarProyecto(id_proyectos.size(), id_proyectos.get(fila_proy));
         modifProy.setVisible(true);
         modifProy.setLocationRelativeTo(null);
         modifProy.LlenarDatosModif(id_proyectos.get(fila_proy));
@@ -322,8 +340,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton JModificarBtn;
     private javax.swing.JTable Tabla_Proyectos;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jCrearProyBtn;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

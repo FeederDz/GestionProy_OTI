@@ -65,7 +65,7 @@ public class ModificarProyecto extends javax.swing.JFrame {
         prioriSpin = new javax.swing.JSpinner();
         EstadoCbox = new javax.swing.JComboBox<>();
         FaseCbox = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        jActProyBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,10 +91,10 @@ public class ModificarProyecto extends javax.swing.JFrame {
 
         FaseCbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "INICIO", "PLANIFICACION", "EJECUCION", "SEGUIMIENTO", "CIERRE" }));
 
-        jButton1.setText("Actualizar proyecto");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jActProyBtn.setText("Actualizar proyecto");
+        jActProyBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jActProyBtnActionPerformed(evt);
             }
         });
 
@@ -133,7 +133,7 @@ public class ModificarProyecto extends javax.swing.JFrame {
                             .addComponent(FaseCbox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(EstadoCbox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(prioriSpin)))
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jActProyBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(66, 66, 66))
         );
         layout.setVerticalGroup(
@@ -161,7 +161,7 @@ public class ModificarProyecto extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(gestor_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(jActProyBtn))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -176,7 +176,7 @@ public class ModificarProyecto extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jActProyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jActProyBtnActionPerformed
         CallableStatement sql;
         try {
             String fechain = fechainicio_text.getText();
@@ -200,7 +200,7 @@ public class ModificarProyecto extends javax.swing.JFrame {
         }
         
         JOptionPane.showMessageDialog(null, "Registros Actualizados.");
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jActProyBtnActionPerformed
     public void LlenarDatosModif(int id) {
         String consulta = "select codigo_proyecto, nombre, sponsor, gestor, fecha_ini, fecha_fin, prioridad, estado, fase from cartera_proyectos where cartera_proyectos.id_proy = '" + id + "'";
         String fase;
@@ -286,7 +286,7 @@ public class ModificarProyecto extends javax.swing.JFrame {
     private javax.swing.JTextField fechafin_text;
     private javax.swing.JTextField fechainicio_text;
     private javax.swing.JTextField gestor_text;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jActProyBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
