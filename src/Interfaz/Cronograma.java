@@ -243,7 +243,7 @@ public class Cronograma extends javax.swing.JFrame {
             //System.out.println(filaseleccionada);
             String[] fechas = new String[10];
             //System.out.println("codigo seleccionado:" + cod_proyecto);
-            System.out.println(filaseleccionada);
+            //System.out.println(filaseleccionada);
 
             fechas[0] = control.DevolverRegistroBD("Select fecha_ini from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'INICIO'", 1);
             fechas[1] = control.DevolverRegistroBD("Select fecha_fin from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'INICIO'", 1);

@@ -198,25 +198,25 @@ public class Principal extends javax.swing.JFrame {
                         " where cartera_proyectos.id_proy = '"+id_proyectos.get(j) +"' and  cartera_proyectos.fase = porcxetapa.etapa";
             //System.out.println(consulta);
             etapa  = control.DevolverRegistroBD(consulta, 1);
-            System.out.println(consulta);
+            //System.out.println(consulta);
             consistencia = control.DevolverRegistroBD(consulta, 2);
             if("".equals(consistencia)){
                 break;
             }//NO RETROCEDE EN ETAPA    
             avance_num  = Integer.parseInt(control.DevolverRegistroBD(consulta, 2));
-            System.out.println("ETAPA DEL PROYECTO "+j+ " " + etapa);
-            System.out.println("AVANCE DEL PROYECTO "+j+ " " + avance_num);
+            //System.out.println("ETAPA DEL PROYECTO "+id_proyectos.get(j)+ " " + etapa);
+            //System.out.println("AVANCE DEL PROYECTO "+id_proyectos.get(j)+ " " + avance_num);
             if(avance_num == 100){
                 try{
                     switch (etapa) {
                         case "INICIO" -> {
                             etapa_asignada = "PLANIFICACION";
-                            System.out.println("LE CAMBIE A" +etapa_asignada ); cond = 1;}
+                            System.out.println("LE CAMBIE A P "); cond = 1;}
                         case "PLANIFICACION" -> {etapa_asignada = "EJECUCION"; cond = 1;}
                         //System.out.println("LE CAMBIE A E");
                         case "EJECUCION" -> {etapa_asignada = "SEGUIMIENTO"; cond = 1;}
                         //System.out.println("LE CAMBIE A S");
-                        case "SEGUIMIENTO" -> {etapa_asignada = "CIERRE"; cond = 1;}
+                        case "SEGUIMIENTO" -> {etapa_asignada = "CIERRE"; cond = 1; System.out.println("LE CAMBIE A C");}
                         //System.out.println("LE CAMBIE A C");
                         case "CIERRE" -> {
                             sql_fin = Conexion.getConexion().prepareCall("{CALL finalizar_proyecto(?)}");
@@ -229,14 +229,14 @@ public class Principal extends javax.swing.JFrame {
                         }
                         default -> System.out.println("QUE FUE MANO, CHECA LA ETAPA/ESTADO.");
                     }
+                    System.out.println("COND = " + cond);
                     if(cond == 1){
+                    try{
                     sql = Conexion.getConexion().prepareCall("{CALL asignar_etapa(?,?)}");
                     sql.setInt(1,id_proyectos.get(j));
-                    System.out.println("Al id " + id_proyectos.get(j) );
                     sql.setString(2,etapa_asignada);
-                    System.out.println("Con etapa " + etapa_asignada);
-                    sql.executeUpdate();
-                    System.out.println("CHECA LA BD");}
+                    sql.executeUpdate();}catch(Exception ex){}
+                    }
                 }catch(Exception ex){}/*finally{
                     if (sql != null) {
                         try {
@@ -245,7 +245,7 @@ public class Principal extends javax.swing.JFrame {
                     }
                 } */  
             }  
-        }
+        } 
     }
     
     
