@@ -215,39 +215,6 @@ public class CrearProyecto extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_guardarBActionPerformed
-        
-    //FALTA LLENAR
-    public void LlenarDatosModif(int id) {
-        String consulta = "select codigo_proyecto, nombre, sponsor, gestor, prioridad, fecha_ini, fecha_fin, fase, estado from cartera_proyectos where cartera_proyectos.id = '" + id + "'";
-        String fase;
-        String estado;
-        codproy_text.setText(control.DevolverRegistroBD(consulta, 1));
-        nombre_text.setText(control.DevolverRegistroBD(consulta, 2));
-        sponsor_text.setText(control.DevolverRegistroBD(consulta, 3));
-        gestor_text.setText(control.DevolverRegistroBD(consulta, 4));
-        //prioriSpin.setValue(control.DevolverRegistroBD(consulta, 5));
-        fechainicio_text.setText(control.DevolverRegistroBD(consulta, 6));
-        fechafin_text.setText(control.DevolverRegistroBD(consulta, 7));
-        //FaseCbox.setSelectedItem(control.DevolverRegistroBD(consulta, 8));
-        fase = control.DevolverRegistroBD(consulta, 8);
-        //EstadoCbox.setSelectedItem(control.DevolverRegistroBD(consulta, 9));
-        estado = control.DevolverRegistroBD(consulta, 9);
-        if("INICIO".equals(fase)){
-            FaseCbox.setSelectedIndex(0);
-        } else if("PLANIFICACION".equals(fase)) {
-            FaseCbox.setSelectedIndex(1);
-        }else if("EJECUCION".equals(fase)) {
-            FaseCbox.setSelectedIndex(2);
-        }else if("SEGUIMIENTO".equals(fase)) {
-            FaseCbox.setSelectedIndex(3);
-        }else{
-            FaseCbox.setSelectedIndex(4);}
-        System.out.println(id);
-    }
-     
-    
-    
-    
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

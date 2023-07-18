@@ -10,6 +10,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,14 +19,18 @@ import java.util.Locale;
  */
 public class CrearActividades extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CrearActividades
-     */
+    int filas = 0;
+
     public CrearActividades() {
 
         controlador control = new controlador();
         int cantproy, id_proy;
         initComponents();
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        corte_txt.setEditable(false);
+        mes_txt.setEditable(false);
+        anio_txt.setEditable(false);
+
     }
 
     public void llenarcamposAct() {
@@ -34,7 +40,7 @@ public class CrearActividades extends javax.swing.JFrame {
         String nombreMes = fechaActual.format(formatoMes);
         String anio = String.valueOf(fechaActual.getYear());
         int dia = fechaActual.getDayOfMonth();
-        if (dia > 15) {
+        if (dia <= 15) {
             corte_txt.setText("PRIMERO");
         } else {
             corte_txt.setText("SEGUNDO");
@@ -73,13 +79,15 @@ public class CrearActividades extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Actividades"
             }
         ));
         jScrollPane2.setViewportView(jTable1);
@@ -114,7 +122,7 @@ public class CrearActividades extends javax.swing.JFrame {
 
         jLabel4.setText("Mes");
 
-        jLabel5.setText("Actividad");
+        jLabel5.setText("Agregar Actividad");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -192,7 +200,16 @@ public class CrearActividades extends javax.swing.JFrame {
     }//GEN-LAST:event_jGuardarBtnActionPerformed
 
     private void jAniadirBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAniadirBtnActionPerformed
-
+        String actividad = jActividad_txt.getText().trim();
+        DefaultTableModel tablaactividad = (DefaultTableModel) jTable1.getModel();
+        if (!actividad.isEmpty()) {
+            tablaactividad.insertRow(filas, new Object[]{actividad});
+            tablaactividad.setColumnIdentifiers(new String[]{"Actividad"});
+            filas++;
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese una actividad");
+        }
+        jActividad_txt.setText("");
     }//GEN-LAST:event_jAniadirBtnActionPerformed
 
     /**
