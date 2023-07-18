@@ -31,8 +31,8 @@ public class ModificarProyecto extends javax.swing.JFrame {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, 1, cantproyectos, 1);
         prioriSpin.setModel(spinnerModel); 
-        System.out.println("Cambio desde RAMA E");
-        
+
+        System.out.println("MIRON DE LA OTI y cambiazo E");
     }
 
     private ModificarProyecto() {
