@@ -49,7 +49,7 @@ public class Principal extends javax.swing.JFrame {
         Tabla_Proyectos.setModel(TablaControl_proyectos);
         control.llenarIds(id_proyectos);
         System.out.println(id_proyectos);
-        System.out.println("RAMA J");
+        System.out.println("RAMA E");
         cargarTabla();
         JModificarBtn.setEnabled(false);
     }
