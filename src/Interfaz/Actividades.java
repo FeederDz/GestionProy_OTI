@@ -26,6 +26,7 @@ public class Actividades extends javax.swing.JFrame {
         //System.out.println("tengo este cod:" + codigo_proy);
         //FechasCorte();
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        invocarCrearAct(codigo_proy);
 
     }
 
@@ -197,10 +198,7 @@ public class Actividades extends javax.swing.JFrame {
     }//GEN-LAST:event_tipocorte_cboxActionPerformed
 
     private void jAgregarActBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAgregarActBtnActionPerformed
-        CrearActividades crearAct = new CrearActividades();
-        crearAct.setVisible(true);
-        crearAct.setLocationRelativeTo(null);
-        crearAct.llenarcamposAct();// TODO add your handling code here:
+        invocarCrearAct(codigo_proy);
     }//GEN-LAST:event_jAgregarActBtnActionPerformed
 
     /*private void LlenarTablasAct(int codigo_proy){
@@ -215,6 +213,12 @@ public class Actividades extends javax.swing.JFrame {
         String consulta = "select act_realizada.fecha_corte from act_realizada group by fecha_corte";
         tipocorte_cbox.removeAllItems();
         control.LlenarJcombobox(consulta, 1, tipocorte_cbox);
+    }
+    
+    private void invocarCrearAct(int cod_proy) {
+        CrearActividades crearact = new CrearActividades(cod_proy);
+        crearact.setVisible(true);
+        crearact.setLocationRelativeTo(null);
     }
 
     public static void main(String args[]) {

@@ -20,18 +20,26 @@ import javax.swing.table.DefaultTableModel;
 public class CrearActividades extends javax.swing.JFrame {
 
     int filas = 0;
-
-    public CrearActividades() {
+    int cod_proyecto;
+    public CrearActividades(int cod) {
 
         controlador control = new controlador();
-        int cantproy, id_proy;
+        this.cod_proyecto=cod;
         initComponents();
+        llenarcamposAct();
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         corte_txt.setEditable(false);
         mes_txt.setEditable(false);
         anio_txt.setEditable(false);
 
     }
+
+    private CrearActividades() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+
+   
 
     public void llenarcamposAct() {
         LocalDate fechaActual = LocalDate.now();
