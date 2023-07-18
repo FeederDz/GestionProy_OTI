@@ -26,7 +26,7 @@ public class Actividades extends javax.swing.JFrame {
         //System.out.println("tengo este cod:" + codigo_proy);
         //FechasCorte();
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        invocarCrearAct(codigo_proy);
+        
 
     }
 
@@ -118,7 +118,7 @@ public class Actividades extends javax.swing.JFrame {
 
         jLabel3.setText("Año:");
 
-        jAgregarActBtn.setText("Agregar Actividad");
+        jAgregarActBtn.setText("Gestionar Actividades");
         jAgregarActBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jAgregarActBtnActionPerformed(evt);
@@ -147,15 +147,13 @@ public class Actividades extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(aniocbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1))
+                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(204, 204, 204)
                         .addComponent(jAgregarActBtn)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,9 +214,10 @@ public class Actividades extends javax.swing.JFrame {
     }
     
     private void invocarCrearAct(int cod_proy) {
-        CrearActividades crearact = new CrearActividades(cod_proy);
+        ModificarActividades crearact = new ModificarActividades(cod_proy);
         crearact.setVisible(true);
         crearact.setLocationRelativeTo(null);
+        
     }
 
     public static void main(String args[]) {

@@ -30,8 +30,7 @@ public class ModificarProyecto extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, 1, cantproyectos, 1);
-        prioriSpin.setModel(spinnerModel); 
-        System.out.println("Cambio desde RAMA E");
+        prioriSpin.setModel(spinnerModel);
         
     }
 
