@@ -51,6 +51,7 @@ public class Principal extends javax.swing.JFrame {
         System.out.println(id_proyectos);
         cargarTabla();
         JModificarBtn.setEnabled(false);
+        System.out.println("OK PANTERA");
     }
 
     @SuppressWarnings("unchecked")
