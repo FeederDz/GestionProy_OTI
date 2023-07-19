@@ -52,6 +52,19 @@ public class controlador extends Conexion {
             }
         }*/
     }
+    
+    public void llenarIdsActividades(ArrayList<Integer> id_actividades, int cod_proy, String mes, String tipo_act, String corte){
+        String query = "select id from actividades WHERE id_proy='" + cod_proy + "'AND mes='" + mes + "' AND tipo_act='" + tipo_act + "' AND corte='" + corte + "'";
+        try {
+            this.st = this.getConexion().createStatement();
+            this.rs = this.st.executeQuery(query);
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                id_actividades.add(id);
+            }
+        } catch (Exception e) {}
+    }
 
     public ResultSet DevolverRegistro(String sql) {
         try {

@@ -214,7 +214,7 @@ public class Actividades extends javax.swing.JFrame {
     }
     
     private void invocarCrearAct(int cod_proy) {
-        ModificarActividades crearact = new ModificarActividades(cod_proy);
+        GestionarActividades crearact = new GestionarActividades(cod_proy);
         crearact.setVisible(true);
         crearact.setLocationRelativeTo(null);
         
