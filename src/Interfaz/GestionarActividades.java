@@ -25,8 +25,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class GestionarActividades extends javax.swing.JFrame {
 
-    int filas = 0;
+    
     int cod_proyecto;
+    int filas = 0;
     controlador control = new controlador();
     
 
@@ -283,15 +284,15 @@ public class GestionarActividades extends javax.swing.JFrame {
     }//GEN-LAST:event_jGuardarBtnActionPerformed
 
     private void jAniadirBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAniadirBtnActionPerformed
+        
         String actividad = jActividad_txt.getText().trim();
         DefaultTableModel tablaactividad = (DefaultTableModel) jTable1.getModel();
+        
         if (!actividad.isEmpty()) {
             tablaactividad.insertRow(filas, new Object[]{actividad});
             tablaactividad.setColumnIdentifiers(new String[]{"Actividad"});
             filas++;
-        } else if (actividad.isEmpty()) {
-
-        } else {
+        }else {
             JOptionPane.showMessageDialog(null, "Ingrese una actividad");
         }
         jActividad_txt.setText("");
@@ -306,7 +307,7 @@ public class GestionarActividades extends javax.swing.JFrame {
         System.out.println(mes);
         System.out.println(corte);
         System.out.println(tipo_act);
-        control.LlenarJtable(tablaactividad, "select actividad from actividades WHERE id_proy='" + cod_proyecto + "'AND mes='" + mes + "' AND tipo_act='" + tipo_act + "' AND corte='" + corte + "'", 1);
+        control.LlenarJtable(tablaactividad, "select actividad from actividades WHERE id_proy='" + cod_proyecto + "'AND mes='" + mes + "' AND tipo_act='" + tipo_act + "' AND corte='" + corte + "' order by id asc", 1);
 
 
     }//GEN-LAST:event_tipoact_cboxActionPerformed
