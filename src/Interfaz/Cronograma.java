@@ -19,6 +19,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.WindowConstants;
 
+/**
+ *
+ * @author ECANALES
+ */
+
 public class Cronograma extends javax.swing.JFrame {
 
     controlador control = new controlador();
@@ -233,17 +238,13 @@ public class Cronograma extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboProyectosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboProyectosActionPerformed
-        //System.out.println("fuera de try");
+
         try {
 
-            //System.out.println("eventocombocbox");
             int filaseleccionada = jComboProyectos.getSelectedIndex();
             int cod_proyecto = 0;
             cod_proyecto = id_proyectos.get(filaseleccionada);
-            //System.out.println(filaseleccionada);
             String[] fechas = new String[10];
-            //System.out.println("codigo seleccionado:" + cod_proyecto);
-            //System.out.println(filaseleccionada);
 
             fechas[0] = control.DevolverRegistroBD("Select fecha_ini from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'INICIO'", 1);
             fechas[1] = control.DevolverRegistroBD("Select fecha_fin from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'INICIO'", 1);
@@ -522,7 +523,8 @@ public class Cronograma extends javax.swing.JFrame {
                 } catch (SQLException e) {}
             }
         }
-
+        
+        control.exportTableToCSV("cartera_proyectos", "Select * from porcxetapa", "D:/BD OTI GESTION/porcxetapa.csv");
         llenarBarra();
 
     }//GEN-LAST:event_jActIniCrBtnActionPerformed

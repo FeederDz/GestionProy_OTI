@@ -211,6 +211,7 @@ public class CrearProyecto extends javax.swing.JFrame {
             Logger.getLogger(CrearProyecto.class.getName()).log(Level.SEVERE, null, ex);
         }
         JOptionPane.showMessageDialog(null, "Proyecto Creacon con Éxito.");
+        control.exportTableToCSV("cartera_proyectos", "Select * from cartera_proyectos", "D:/BD OTI GESTION/cartera_proyectos.csv");
         dispose();
         
         

@@ -22,8 +22,6 @@ public class Actividades extends javax.swing.JFrame {
         TablaControl_act_proxima.setColumnIdentifiers(new String[]{"Actividades Proximas"});
         Act_realizadas.setModel(TablaControl_act_realizada);
         Act_proximas.setModel(TablaControl_act_proxima);
-        //LlenarTablasAct(codigo_proy);
-        //System.out.println("tengo este cod:" + codigo_proy);
         //FechasCorte();
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         
@@ -187,6 +185,7 @@ public class Actividades extends javax.swing.JFrame {
         control.LimpiarJtable(TablaControl_act_proxima);
         String consulta = "select actividad from actividades where tipo_act='REALIZADA' AND id_proy=" + codigo_proy + " AND corte='" + corte + "' AND mes='" + mes + "' AND año='" + anio + "'";
         String consulta2 = "select actividad from actividades where tipo_act='PROXIMA' AND id_proy=" + codigo_proy + " AND corte='" + corte + "' AND mes='" + mes + "' AND año='" + anio + "'";
+        System.out.println(consulta);
         control.LlenarJtable(TablaControl_act_realizada, consulta, 1);
         control.LlenarJtable(TablaControl_act_proxima, consulta2, 1);
     }//GEN-LAST:event_buscar_fechaActionPerformed
@@ -214,7 +213,7 @@ public class Actividades extends javax.swing.JFrame {
     }
     
     private void invocarCrearAct(int cod_proy) {
-        GestionarActividades crearact = new GestionarActividades(cod_proy);
+        GestionActividades crearact = new GestionActividades(cod_proy);
         crearact.setVisible(true);
         crearact.setLocationRelativeTo(null);
         

@@ -1,11 +1,14 @@
 package Recursos;
 
+import com.opencsv.CSVWriter;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -22,6 +25,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.text.DefaultFormatter;
 
+/**
+ *
+ * @author JNUNEZF
+ */
 public class controlador extends Conexion {
 
     public controlador() {
@@ -39,22 +46,10 @@ public class controlador extends Conexion {
                 id_proyectos.add(id);
             }
         } catch (Exception e) {}
-       /* finally{
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {}
-            }
-            if (st != null) {
-                try {
-                    st.close();
-                } catch (SQLException e) {}
-            }
-        }*/
     }
     
     public void llenarIdsActividades(ArrayList<Integer> id_actividades, int cod_proy, String mes, String tipo_act, String corte){
-        String query = "select id from actividades WHERE id_proy='" + cod_proy + "'AND mes='" + mes + "' AND tipo_act='" + tipo_act + "' AND corte='" + corte + "'";
+        String query = "select id from actividades WHERE id_proy='" + cod_proy + "'AND mes='" + mes + "' AND tipo_act='" + tipo_act + "' AND corte='" + corte + "' order by id asc";
         try {
             this.st = this.getConexion().createStatement();
             this.rs = this.st.executeQuery(query);
@@ -71,19 +66,7 @@ public class controlador extends Conexion {
             this.st = this.getConexion().createStatement();
             this.rs = this.st.executeQuery(sql);
         }catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());}
-        /*finally{
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {}
-            }
-            if (st != null) {
-                try {
-                    st.close();
-                } catch (SQLException e) {}
-            }
-        } */       
+            JOptionPane.showMessageDialog(null, e.getMessage());}      
         return this.rs;
     }
 
@@ -94,19 +77,7 @@ public class controlador extends Conexion {
             while (this.rs.next()) {
                 capturar = this.rs.getString(pos);
             }
-        }catch (Exception e) {}
-        /*finally{
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {}
-            }
-            if (st != null) {
-                try {
-                    st.close();
-                } catch (SQLException e) {}
-            }
-        }*/        
+        }catch (Exception e) {}      
         return capturar;
     }
 
@@ -118,14 +89,7 @@ public class controlador extends Conexion {
             if (this.rs.next()) {
                 rs = this.rs.getString(pos);
             }
-        } catch (Exception e) {}
-        /*finally{
-            if (st != null) {
-                try {
-                    st.close();
-                } catch (SQLException e) {}
-            }
-        }*/        
+        } catch (Exception e) {}      
         return rs;
     }
 
@@ -161,18 +125,6 @@ public class controlador extends Conexion {
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());}
-        /*finally{
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {}
-            }
-            if (st != null) {
-                try {
-                    st.close();
-                } catch (SQLException e) {}
-            }
-        }*/
         return capturar;
     }
 
@@ -190,7 +142,7 @@ public class controlador extends Conexion {
     public void LlenarJtableButton(DefaultTableModel mdt, String sql, int tamanio) {
         LimpiarJtable(mdt);
 
-        Object[] datos = new Object[tamanio + 1]; // Aumentar el tamaño del arreglo en 1 para el JButton
+        Object[] datos = new Object[tamanio + 1]; 
         try {
             this.rs = DevolverRegistro(sql);
             while (this.rs.next()) {
@@ -198,7 +150,7 @@ public class controlador extends Conexion {
                     datos[i] = this.rs.getString(i + 1);
                 }
                 // MODIFICAR ESTA NOTA: ->>> datos[tamanio - 1] = new JProgressBar().setValue(10);
-                datos[tamanio] = new JButton("Ver"); // Agregar el JButton en la última posición
+                datos[tamanio] = new JButton("Ver"); 
                 mdt.addRow(datos);
             }
         } catch (Exception e) {
@@ -219,18 +171,6 @@ public class controlador extends Conexion {
                 avances_proy.add(avance);
             }
         } catch (Exception e) {e.printStackTrace();}
-        /*finally{
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {}
-            }
-            if (st != null) {
-                try {
-                    st.close();
-                } catch (SQLException e) {}
-            }
-        }*/
 
         Object[] datos = new Object[tamanio + 2];
         try {
@@ -250,18 +190,7 @@ public class controlador extends Conexion {
                 k++;
             }
         } catch (Exception e) {e.printStackTrace();}
-       /* finally{
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {}
-            }
-            if (st != null) {
-                try {
-                    st.close();
-                } catch (SQLException e) {}
-            }
-        }  */      
+     
     }
 
     public void TablaSpinner(DefaultTableModel mdt, String sql, int tamanio) {
@@ -277,18 +206,6 @@ public class controlador extends Conexion {
                 avances_proy.add(avance);
             }
         } catch (Exception e) {e.printStackTrace();}
-       /* finally{
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {}
-            }
-            if (st != null) {
-                try {
-                    st.close();
-                } catch (SQLException e) {}
-            }
-        }*/
 
         Object[] datos = new Object[tamanio + 3];
         try {
@@ -315,18 +232,7 @@ public class controlador extends Conexion {
                 k++;
             }
         } catch (Exception e) {e.printStackTrace();}
-        /*finally{
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {}
-            }
-            if (st != null) {
-                try {
-                    st.close();
-                } catch (SQLException e) {}
-            }
-        }*/
+
     }
     
     public int avanceporc(String fechai, String fechaf) {
@@ -350,4 +256,37 @@ public class controlador extends Conexion {
         Integer avancePorcentaje = (int) avancepor;
         return avancePorcentaje;
     }
+    
+    public  void exportTableToCSV(String tableName,String query ,String filePath) {
+
+         try {
+            Statement st = this.getConexion().createStatement();
+            ResultSet rs = st.executeQuery(query);
+            FileWriter fileWriter = new FileWriter(filePath);
+            CSVWriter csvWriter = new CSVWriter(fileWriter);
+            int columnCount = rs.getMetaData().getColumnCount();
+            String[] columnNames = new String[columnCount];
+            for (int i = 0; i < columnCount; i++) {
+                columnNames[i] = rs.getMetaData().getColumnName(i + 1);
+            }
+            csvWriter.writeNext(columnNames);
+
+            // Escribir los datos en las filas siguientes
+            while (rs.next()) {
+                String[] row = new String[columnCount];
+                for (int i = 0; i < columnCount; i++) {
+                    row[i] = rs.getString(i + 1);
+                }
+                csvWriter.writeNext(row);
+            }
+
+            // Cerrar el archivo CSV y la conexión a la base de datos
+            csvWriter.close();
+            fileWriter.close();
+            rs.close();
+            st.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString());} 
+        }
+    
 }

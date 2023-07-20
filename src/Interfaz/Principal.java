@@ -33,7 +33,7 @@ public class Principal extends javax.swing.JFrame {
     DefaultTableModel TablaControl_proyectos = new DefaultTableModel() {
         @Override
         public boolean isCellEditable(int row, int column) {
-            return column == 0;
+            return false;
         }
     };
 
@@ -41,17 +41,17 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         TablaControl_proyectos.setColumnIdentifiers(new String[]{"Prioridad", "Codigo Proyecto", "Nombre", "Sponsor", "Gestor", "Fase", "Fecha Inicio", "Fecha Fin", "Avance", "Actividades"});
-        // CORTES AUTOMATICOS MENSUALES POR QUINCENAS
-        // ACTUALIZAR ETAPA DEL PROYECTO GENERAL
-        //COLOCAR MENSAJE AL CREAR 
-        // LIMITE DEL SPINER LA CANTIDAD DE PROYECTOS
         this.Tabla_Proyectos.setDefaultRenderer(Object.class, new RenderTable());
         Tabla_Proyectos.setModel(TablaControl_proyectos);
         control.llenarIds(id_proyectos);
         System.out.println(id_proyectos);
         cargarTabla();
         JModificarBtn.setEnabled(false);
-        System.out.println("OK PANTERA");
+        
+        control.exportTableToCSV("cartera_proyectos", "Select * from cartera_proyectos", "D:/BD OTI GESTION/cartera_proyectos.csv");
+        control.exportTableToCSV("cartera_proyectos", "Select * from porcxetapa", "D:/BD OTI GESTION/porcxetapa.csv");
+        control.exportTableToCSV("cartera_proyectos", "Select * from actividades", "D:/BD OTI GESTION/actividades.csv");
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -150,7 +150,6 @@ public class Principal extends javax.swing.JFrame {
 
     private void cargarTabla() {
         control.LimpiarJtable(TablaControl_proyectos);
-        //ACA HACER PRUEBAS CON LA TABLA
         actualizar_avance();
         control.PruebaLlenarProgressBar(TablaControl_proyectos, "SELECT  prioridad, codigo_proyecto , nombre, sponsor, gestor, fase, fecha_ini, fecha_fin  FROM CARTERA_PROYECTOS "
                 + "WHERE estado = 'EN PROCESO' order by cartera_proyectos.prioridad asc", 8);
@@ -162,12 +161,9 @@ public class Principal extends javax.swing.JFrame {
         String f_ini, f_fin;
         int avance = 0;
         for (int i = 0; i < id_proyectos.size(); i++) {
-            //System.out.println(id_proyectos.size());
             try {
                 f_ini = control.DevolverRegistroBD("Select fecha_ini from cartera_proyectos where cartera_proyectos.id_proy = '" + id_proyectos.get(i) + "'", 1);
-                //System.out.println("fecha ini: " + f_ini);
                 f_fin = control.DevolverRegistroBD("Select fecha_fin from cartera_proyectos where cartera_proyectos.id_proy = '" + id_proyectos.get(i) + "'", 1);
-                //System.out.println("fecha fin: " + f_fin);
                 avance = control.avanceporc(f_ini, f_fin);
                 sql = Conexion.getConexion().prepareCall("{CALL asignar_avance(?,?)}");
                 sql.setInt(1, id_proyectos.get(i));
@@ -200,16 +196,12 @@ public class Principal extends javax.swing.JFrame {
                     + " inner join cartera_proyectos "
                     + " ON porcxetapa.id = cartera_proyectos.id_proy "
                     + " where cartera_proyectos.id_proy = '" + id_proyectos.get(j) + "' and  cartera_proyectos.fase = porcxetapa.etapa";
-            //System.out.println(consulta);
             etapa = control.DevolverRegistroBD(consulta, 1);
-            //System.out.println(consulta);
             consistencia = control.DevolverRegistroBD(consulta, 2);
             if ("".equals(consistencia)) {
                 break;
-            }//NO RETROCEDE EN ETAPA    
+            }
             avance_num = Integer.parseInt(control.DevolverRegistroBD(consulta, 2));
-            //System.out.println("ETAPA DEL PROYECTO "+id_proyectos.get(j)+ " " + etapa);
-            //System.out.println("AVANCE DEL PROYECTO "+id_proyectos.get(j)+ " " + avance_num);
             if (avance_num == 100) {
                 try {
                     switch (etapa) {
@@ -222,18 +214,15 @@ public class Principal extends javax.swing.JFrame {
                             etapa_asignada = "EJECUCION";
                             cond = 1;
                         }
-                        //System.out.println("LE CAMBIE A E");
                         case "EJECUCION" -> {
                             etapa_asignada = "SEGUIMIENTO";
                             cond = 1;
                         }
-                        //System.out.println("LE CAMBIE A S");
                         case "SEGUIMIENTO" -> {
                             etapa_asignada = "CIERRE";
                             cond = 1;
                             System.out.println("LE CAMBIE A C");
                         }
-                        //System.out.println("LE CAMBIE A C");
                         case "CIERRE" -> {
                             sql_fin = Conexion.getConexion().prepareCall("{CALL finalizar_proyecto(?)}");
                             sql_fin.setInt(1, id_proyectos.get(j));
@@ -241,7 +230,6 @@ public class Principal extends javax.swing.JFrame {
                             String sql_nom = "Select cartera_proyectos.nombre from cartera_proyectos where cartera_proyectos.id_proy = '" + id_proyectos.get(j) + "'";
                             String nombre = control.DevolverRegistroBD(sql_nom, 1);
                             JOptionPane.showMessageDialog(null, "El proyecto " + nombre + " ha finalizado.");
-                            //System.out.println("LE CAMBIE A FINALIZADO");
                         }
                         default ->
                             System.out.println("QUE FUE MANO, CHECA LA ETAPA/ESTADO.");
@@ -257,13 +245,7 @@ public class Principal extends javax.swing.JFrame {
                         }
                     }
                 } catch (Exception ex) {
-                }/*finally{
-                    if (sql != null) {
-                        try {
-                            sql.close();
-                        }catch (SQLException e) {} 
-                    }
-                } */
+                }
             }
         }
     }
@@ -273,7 +255,6 @@ public class Principal extends javax.swing.JFrame {
         cargarTabla();
         id_proyectos.clear();
         control.llenarIds(id_proyectos);
-        //System.out.println("Carga de id iteracion 2" + id_proyectos);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void Tabla_ProyectosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tabla_ProyectosMouseClicked
@@ -281,21 +262,13 @@ public class Principal extends javax.swing.JFrame {
         int row = evt.getY() / Tabla_Proyectos.getRowHeight();
         int codigo_proyecto;
         this.fila_proy = row;
-        /*System.out.println("Fila: " + row);
-        System.out.println("Fila capturada: " + fila_proy);
-        System.out.println("Identificador proyecto: " + id_proyectos.get(row));*/
         if (row < Tabla_Proyectos.getRowCount() && row >= 0 && column < Tabla_Proyectos.getColumnCount() && column >= 0) {
             JModificarBtn.setEnabled(true);
             Object value = Tabla_Proyectos.getValueAt(row, column);
             if (value instanceof JButton) {
                 ((JButton) value).doClick();
                 JButton boton = (JButton) value;
-                //Capturamos el ROW e invocamos las actividades con el id que se guardo en el arrayList
-                //System.out.println("Tengo este row:" + row);
                 codigo_proyecto = id_proyectos.get(row);
-                /*System.out.println("Fila es:" + row);
-                System.out.println("Codigo es:" + codigo_proyecto);*/
-                //System.out.println("tengo este id:" + codigo_proyecto);
                 invocarAct(codigo_proyecto);
             }
         }
@@ -319,7 +292,6 @@ public class Principal extends javax.swing.JFrame {
         modifProy.setVisible(true);
         modifProy.setLocationRelativeTo(null);
         modifProy.LlenarDatosModif(id_proyectos.get(fila_proy));
-        //System.out.println(id_proyectos.get(fila_proy));
     }//GEN-LAST:event_JModificarBtnActionPerformed
 
     private void invocarAct(int cod_proy) {

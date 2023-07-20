@@ -5,6 +5,10 @@ import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+/**
+ *
+ * @author JNUNEZF
+ */
 public class Conexion {
     public static ResultSet rs;
     public static Statement st;

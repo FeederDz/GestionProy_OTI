@@ -23,15 +23,14 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author ECANALES
  */
-public class GestionarActividades extends javax.swing.JFrame {
+public class GestionarActividadesZZZ extends javax.swing.JFrame {
 
     
     int cod_proyecto;
     int filas = 0;
     controlador control = new controlador();
     
-
-    public GestionarActividades(int cod) {
+    public GestionarActividadesZZZ(int cod) {
 
         controlador control = new controlador();
         this.cod_proyecto = cod;
@@ -47,11 +46,11 @@ public class GestionarActividades extends javax.swing.JFrame {
         String corte = corte_txt.getText();
         System.out.println(cod_proyecto);
         jModificarActBtn.setEnabled(false);
-        
+
 
     }
-
-    private GestionarActividades() {
+    
+    private GestionarActividadesZZZ() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -85,12 +84,11 @@ public class GestionarActividades extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jActividad_txt = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TablaActividades = new javax.swing.JTable();
         tipoact_cbox = new javax.swing.JComboBox<>();
         anio_txt = new javax.swing.JTextField();
         mes_txt = new javax.swing.JTextField();
         jAniadirBtn = new javax.swing.JButton();
-        jGuardarBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -106,7 +104,7 @@ public class GestionarActividades extends javax.swing.JFrame {
         jActividad_txt.setRows(5);
         jScrollPane1.setViewportView(jActividad_txt);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TablaActividades.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -114,12 +112,12 @@ public class GestionarActividades extends javax.swing.JFrame {
                 "Lista de Actividades"
             }
         ));
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        TablaActividades.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
+                TablaActividadesMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(TablaActividades);
 
         tipoact_cbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "REALIZADA", "PROXIMA" }));
         tipoact_cbox.addActionListener(new java.awt.event.ActionListener() {
@@ -135,13 +133,6 @@ public class GestionarActividades extends javax.swing.JFrame {
             }
         });
 
-        jGuardarBtn.setText("Guardar Actividades");
-        jGuardarBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jGuardarBtnActionPerformed(evt);
-            }
-        });
-
         jLabel1.setText("Actividad");
 
         jLabel2.setText("Corte");
@@ -153,6 +144,11 @@ public class GestionarActividades extends javax.swing.JFrame {
         jLabel5.setText("Agregar Actividad");
 
         jModificarActBtn.setText("Modificar Actividad");
+        jModificarActBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jModificarActBtnActionPerformed(evt);
+            }
+        });
 
         jEliminarActBtn.setText("Eliminar Actividad");
         jEliminarActBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -198,10 +194,6 @@ public class GestionarActividades extends javax.swing.JFrame {
                                     .addComponent(jEliminarActBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jGuardarBtn)
-                .addGap(336, 336, 336))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -230,63 +222,21 @@ public class GestionarActividades extends javax.swing.JFrame {
                             .addComponent(anio_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jEliminarActBtn)
                             .addComponent(corte_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jScrollPane1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jAniadirBtn)
-                .addGap(30, 30, 30)
+                .addGap(24, 24, 24)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jGuardarBtn)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jGuardarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jGuardarBtnActionPerformed
-        CallableStatement sql;
-
-        String agreact;
-        DefaultTableModel tablaactividad = (DefaultTableModel) jTable1.getModel();
-        int fila = tablaactividad.getRowCount();
-        String[] actividades = new String[fila];
-        for (int i = 0; i < fila; i++) {
-            actividades[i] = tablaactividad.getValueAt(i, 0).toString();
-        }
-        String corte = corte_txt.getText();
-        String mes = mes_txt.getText();
-        String anio = anio_txt.getText();
-        int contador = 0;
-
-        if (tablaactividad.getRowCount() != 0) {
-            for (int i = 0; i < actividades.length; i++) {
-                try {
-                    sql = Conexion.getConexion().prepareCall("{CALL sp_crearactividad(?,?,?,?,?,?)}");
-                    sql.setInt(1, cod_proyecto);
-                    sql.setString(2, actividades[i]);
-                    sql.setString(3, tipoact_cbox.getSelectedItem().toString());
-                    sql.setString(4, corte_txt.getText());
-                    sql.setString(5, mes_txt.getText());
-                    sql.setString(6, anio_txt.getText());
-                    sql.executeUpdate();
-                    contador++;
-                } catch (Exception e) {
-                }
-                if (contador == actividades.length) {
-                    JOptionPane.showMessageDialog(null, "Actividades Agregadas con Éxito.");
-                }
-
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Ingrese actividades a la Lista");
-        }
-
-    }//GEN-LAST:event_jGuardarBtnActionPerformed
-
+       
     private void jAniadirBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAniadirBtnActionPerformed
         
         String actividad = jActividad_txt.getText().trim();
-        DefaultTableModel tablaactividad = (DefaultTableModel) jTable1.getModel();
+        DefaultTableModel tablaactividad = (DefaultTableModel) TablaActividades.getModel();
         
         if (!actividad.isEmpty()) {
             tablaactividad.insertRow(filas, new Object[]{actividad});
@@ -301,7 +251,7 @@ public class GestionarActividades extends javax.swing.JFrame {
     private void tipoact_cboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoact_cboxActionPerformed
         Object selectedItem = tipoact_cbox.getSelectedItem();
         String tipo_act = selectedItem.toString();
-        DefaultTableModel tablaactividad = (DefaultTableModel) jTable1.getModel();
+        DefaultTableModel tablaactividad = (DefaultTableModel) TablaActividades.getModel();
         String mes = mes_txt.getText();
         String corte = corte_txt.getText();
         System.out.println(mes);
@@ -314,8 +264,8 @@ public class GestionarActividades extends javax.swing.JFrame {
 
     private void jEliminarActBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEliminarActBtnActionPerformed
         CallableStatement sql;
-        DefaultTableModel tablaactividad = (DefaultTableModel) jTable1.getModel();
-        int selectedRow = jTable1.getSelectedRow();
+        DefaultTableModel tablaactividad = (DefaultTableModel) TablaActividades.getModel();
+        int selectedRow = TablaActividades.getSelectedRow();
         ArrayList<Integer> id_actividades = new ArrayList<>();
         Object selectedItem = tipoact_cbox.getSelectedItem();
         String tipo_act = selectedItem.toString();
@@ -331,25 +281,30 @@ public class GestionarActividades extends javax.swing.JFrame {
                     sql.executeUpdate();
                 } catch (Exception e) {
                 }
-            jTable1.repaint();
+            TablaActividades.repaint();
         } else {
             JOptionPane.showMessageDialog(null, "Seleccione una actividad de la lista para eliminarla.");
         }
+        
     }//GEN-LAST:event_jEliminarActBtnActionPerformed
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        int column = jTable1.getColumnModel().getColumnIndexAtX(evt.getX());
-        int row = evt.getY() / jTable1.getRowHeight();
+    private void TablaActividadesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaActividadesMouseClicked
+        int column = TablaActividades.getColumnModel().getColumnIndexAtX(evt.getX());
+        int row = evt.getY() / TablaActividades.getRowHeight();
         int codigo_proyecto;
         /*System.out.println("Fila: " + row);
         System.out.println("Fila capturada: " + fila_proy);
         System.out.println("Identificador proyecto: " + id_proyectos.get(row));*/
-        if (row < jTable1.getRowCount() && row >= 0 && column < jTable1.getColumnCount() && column >= 0) {
+        if (row < TablaActividades.getRowCount() && row >= 0 && column < TablaActividades.getColumnCount() && column >= 0) {
             jModificarActBtn.setEnabled(true);
-  
+            jAniadirBtn.setEnabled(false);
         }
-    }//GEN-LAST:event_jTable1MouseClicked
+    }//GEN-LAST:event_TablaActividadesMouseClicked
 
+    private void jModificarActBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jModificarActBtnActionPerformed
+        
+    }//GEN-LAST:event_jModificarActBtnActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -367,14 +322,18 @@ public class GestionarActividades extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GestionarActividades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestionarActividadesZZZ.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GestionarActividades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestionarActividadesZZZ.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GestionarActividades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestionarActividadesZZZ.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GestionarActividades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestionarActividadesZZZ.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -383,18 +342,18 @@ public class GestionarActividades extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GestionarActividades().setVisible(true);
+                new GestionarActividadesZZZ().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable TablaActividades;
     private javax.swing.JTextField anio_txt;
     private javax.swing.JTextField corte_txt;
     private javax.swing.JTextArea jActividad_txt;
     private javax.swing.JButton jAniadirBtn;
     private javax.swing.JButton jEliminarActBtn;
-    private javax.swing.JButton jGuardarBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -403,7 +362,6 @@ public class GestionarActividades extends javax.swing.JFrame {
     private javax.swing.JButton jModificarActBtn;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField mes_txt;
     private javax.swing.JComboBox<String> tipoact_cbox;
     // End of variables declaration//GEN-END:variables
