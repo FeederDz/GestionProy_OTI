@@ -426,6 +426,7 @@ public class Cronograma extends javax.swing.JFrame {
 
             JBarraCierre.setValue(avanCIER);
             JBarraCierre.setStringPainted(true);
+
         } catch (Exception e) {
 
         }
@@ -436,9 +437,7 @@ public class Cronograma extends javax.swing.JFrame {
         int cod_proyecto = 0;
         if (filaseleccionada != -1) {
             cod_proyecto = id_proyectos.get(filaseleccionada);
-        } else {
-            System.out.println("La volviste a cagar");
-        }
+        } 
         try {
             sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_fechaxetapa(?,?,?,?)}");
             sql.setInt(1, cod_proyecto);
@@ -523,9 +522,8 @@ public class Cronograma extends javax.swing.JFrame {
                 } catch (SQLException e) {}
             }
         }
-        
-        control.exportTableToCSV("cartera_proyectos", "Select * from porcxetapa", "D:/BD OTI GESTION/porcxetapa.csv");
         llenarBarra();
+        control.exportTableToCSV("porcxetapa", "Select * from porcxetapa", "D:/BD OTI GESTION/porcxetapa.csv");
 
     }//GEN-LAST:event_jActIniCrBtnActionPerformed
 

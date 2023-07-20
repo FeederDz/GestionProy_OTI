@@ -49,8 +49,8 @@ public class Principal extends javax.swing.JFrame {
         JModificarBtn.setEnabled(false);
         
         control.exportTableToCSV("cartera_proyectos", "Select * from cartera_proyectos", "D:/BD OTI GESTION/cartera_proyectos.csv");
-        control.exportTableToCSV("cartera_proyectos", "Select * from porcxetapa", "D:/BD OTI GESTION/porcxetapa.csv");
-        control.exportTableToCSV("cartera_proyectos", "Select * from actividades", "D:/BD OTI GESTION/actividades.csv");
+        control.exportTableToCSV("porcxetapa", "Select * from porcxetapa", "D:/BD OTI GESTION/porcxetapa.csv");
+        control.exportTableToCSV("actividades", "Select * from actividades", "D:/BD OTI GESTION/actividades.csv");
         
     }
 
@@ -153,6 +153,7 @@ public class Principal extends javax.swing.JFrame {
         actualizar_avance();
         control.PruebaLlenarProgressBar(TablaControl_proyectos, "SELECT  prioridad, codigo_proyecto , nombre, sponsor, gestor, fase, fecha_ini, fecha_fin  FROM CARTERA_PROYECTOS "
                 + "WHERE estado = 'EN PROCESO' order by cartera_proyectos.prioridad asc", 8);
+        control.exportTableToCSV("cartera_proyectos", "Select * from cartera_proyectos", "D:/BD OTI GESTION/cartera_proyectos.csv");
 
     }
 
@@ -255,6 +256,7 @@ public class Principal extends javax.swing.JFrame {
         cargarTabla();
         id_proyectos.clear();
         control.llenarIds(id_proyectos);
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void Tabla_ProyectosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tabla_ProyectosMouseClicked

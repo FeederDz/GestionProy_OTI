@@ -95,6 +95,11 @@ public class GestionActividades extends javax.swing.JFrame {
         });
 
         jModificarActBtn.setText("Modificar Actividad");
+        jModificarActBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jModificarActBtnActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Mes");
 
@@ -223,20 +228,8 @@ public class GestionActividades extends javax.swing.JFrame {
         CallableStatement sql;
         int row = evt.getY() / TablaActividades.getRowHeight();
         this.filas_selecionada = row;
-        //jModificarActBtn.setEnabled(true);
-        jEliminarActBtn.setEnabled(true);
-        
-        /*try{
-            LocalDate fechaActual = LocalDate.now();               
-            String anio = String.valueOf(fechaActual.getYear());
-            Object selectedItem = tipoact_cbox.getSelectedItem();
-            String tipo_act = selectedItem.toString();
-            String mes = mes_txt.getText();
-            String corte = corte_txt.getText();
-            String act = control.DevolverRegistroBD("select actividad from actividades WHERE id_proy='" + cod_proyecto + "'AND mes='" + mes + "' AND tipo_act='" + tipo_act + "' AND corte='" + corte + "' order by id asc", 1);
-            jActividad_txt.setText(act);           
-        }catch(Exception ex){}*/
-        
+        jModificarActBtn.setEnabled(true);
+        jEliminarActBtn.setEnabled(true);        
     }//GEN-LAST:event_TablaActividadesMouseClicked
 
     private void tipoact_cboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoact_cboxActionPerformed
@@ -286,7 +279,7 @@ public class GestionActividades extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Ingrese una actividad");
         }
         jActividad_txt.setText("");
-        control.exportTableToCSV("cartera_proyectos", "Select * from actividades", "D:/BD OTI GESTION/actividades.csv");
+        control.exportTableToCSV("actividades", "Select * from actividades", "D:/BD OTI GESTION/actividades.csv");
         llenarIdAct();
     }//GEN-LAST:event_jAniadirBtnActionPerformed
 
@@ -301,9 +294,29 @@ public class GestionActividades extends javax.swing.JFrame {
             System.out.println(selectedRow);
             System.out.println(id_actividades.get(selectedRow));
         } catch (Exception e) {TablaActividades.repaint(); }
-        control.exportTableToCSV("cartera_proyectos", "Select * from actividades", "D:/BD OTI GESTION/actividades.csv");
+        control.exportTableToCSV("actividades", "Select * from actividades", "D:/BD OTI GESTION/actividades.csv");
         llenarIdAct();
     }//GEN-LAST:event_jEliminarActBtnActionPerformed
+
+    private void jModificarActBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jModificarActBtnActionPerformed
+        CallableStatement sql;
+        int selectedRow = TablaActividades.getSelectedRow();
+        TablaControlActividades.removeRow(selectedRow);
+        jEliminarActBtn.setEnabled(false);        
+        try{
+            LocalDate fechaActual = LocalDate.now();               
+            String anio = String.valueOf(fechaActual.getYear());
+            Object selectedItem = tipoact_cbox.getSelectedItem();
+            String tipo_act = selectedItem.toString();
+            String mes = mes_txt.getText();
+            String corte = corte_txt.getText();
+            String act = control.DevolverRegistroBD("select actividad from actividades WHERE id_proy='" + cod_proyecto + "'AND mes='" + mes + "' AND tipo_act='" + tipo_act + "' AND corte='" + corte + "' order by id asc", 1);
+            System.out.println(cod_proyecto);
+            System.out.println(selectedRow);
+            System.out.println(id_actividades.get(selectedRow));
+            jActividad_txt.setText(act);           
+        }catch(Exception ex){}
+    }//GEN-LAST:event_jModificarActBtnActionPerformed
 
     /**
      * @param args the command line arguments

@@ -199,7 +199,7 @@ public class ModificarProyecto extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(CrearProyecto.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        control.exportTableToCSV("cartera_proyectos", "Select * from cartera_proyectos", "D:/BD OTI GESTION/cartera_proyectos.csv");
         JOptionPane.showMessageDialog(null, "Registros Actualizados.");
     }//GEN-LAST:event_jActProyBtnActionPerformed
     public void LlenarDatosModif(int id) {
