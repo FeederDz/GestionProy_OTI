@@ -240,8 +240,7 @@ public class ModificarProyecto extends javax.swing.JFrame {
             default -> EstadoCbox.setSelectedIndex(3);
         }
         
-        
-        System.out.println(id);
+       
     }
 
     /**

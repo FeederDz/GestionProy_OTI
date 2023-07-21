@@ -60,7 +60,19 @@ public class controlador extends Conexion {
             }
         } catch (Exception e) {}
     }
+    
+    public void llenarIdsRiesgos(ArrayList<Integer> id_riesgos, int cod_proy, String mes, String corte){
+        String query = "select id from actividades WHERE id_proy='" + cod_proy + "'AND mes='" + mes + "' AND corte='" + corte + "' order by id asc";
+        try {
+            this.st = this.getConexion().createStatement();
+            this.rs = this.st.executeQuery(query);
 
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                id_riesgos.add(id);
+            }
+        } catch (Exception e) {}
+    }
     public ResultSet DevolverRegistro(String sql) {
         try {
             this.st = this.getConexion().createStatement();
@@ -288,5 +300,5 @@ public class controlador extends Conexion {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.toString());} 
         }
-    
+       
 }

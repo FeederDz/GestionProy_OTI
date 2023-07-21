@@ -2,6 +2,7 @@ package Interfaz;
 
 import javax.swing.table.DefaultTableModel;
 import Recursos.controlador;
+import java.time.LocalDate;
 import javax.swing.WindowConstants;
 
 /**
@@ -14,14 +15,17 @@ public class Actividades extends javax.swing.JFrame {
     int codigo_proy = 0;
     DefaultTableModel TablaControl_act_realizada = new DefaultTableModel();
     DefaultTableModel TablaControl_act_proxima = new DefaultTableModel();
+    DefaultTableModel TablaControlRiesgos = new DefaultTableModel();
 
     public Actividades(int cod) {
         initComponents();
         this.codigo_proy = cod;
         TablaControl_act_realizada.setColumnIdentifiers(new String[]{"Actividades Realizadas"});
         TablaControl_act_proxima.setColumnIdentifiers(new String[]{"Actividades Proximas"});
+        TablaControlRiesgos.setColumnIdentifiers(new String[]{"Riesgos"});
         Act_realizadas.setModel(TablaControl_act_realizada);
         Act_proximas.setModel(TablaControl_act_proxima);
+        tablaRiesgos.setModel(TablaControlRiesgos);
         //FechasCorte();
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         
@@ -50,6 +54,9 @@ public class Actividades extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jAgregarActBtn = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tablaRiesgos = new javax.swing.JTable();
+        jAgregarRies = new javax.swing.JButton();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -116,10 +123,30 @@ public class Actividades extends javax.swing.JFrame {
 
         jLabel3.setText("Año:");
 
-        jAgregarActBtn.setText("Gestionar Actividades");
+        jAgregarActBtn.setText("Administrar Actividades");
         jAgregarActBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jAgregarActBtnActionPerformed(evt);
+            }
+        });
+
+        tablaRiesgos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(tablaRiesgos);
+
+        jAgregarRies.setText("Administrar Riesgos");
+        jAgregarRies.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jAgregarRiesActionPerformed(evt);
             }
         });
 
@@ -129,28 +156,35 @@ public class Actividades extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(buscar_fecha)
-                        .addGap(36, 36, 36)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tipocorte_cbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(mescbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(59, 59, 59)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(aniocbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1))
-                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jAgregarActBtn)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 735, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(buscar_fecha)
+                                .addGap(36, 36, 36)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tipocorte_cbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(42, 42, 42)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(mescbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(59, 59, 59)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(aniocbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1))
+                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jAgregarActBtn)
+                                .addGap(32, 32, 32)
+                                .addComponent(jAgregarRies)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -168,10 +202,13 @@ public class Actividades extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
-                            .addComponent(jAgregarActBtn))
+                            .addComponent(jAgregarActBtn)
+                            .addComponent(jAgregarRies))
                         .addGap(30, 30, 30)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(193, Short.MAX_VALUE))
+                .addGap(29, 29, 29)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
@@ -185,9 +222,10 @@ public class Actividades extends javax.swing.JFrame {
         control.LimpiarJtable(TablaControl_act_proxima);
         String consulta = "select actividad from actividades where tipo_act='REALIZADA' AND id_proy=" + codigo_proy + " AND corte='" + corte + "' AND mes='" + mes + "' AND año='" + anio + "'";
         String consulta2 = "select actividad from actividades where tipo_act='PROXIMA' AND id_proy=" + codigo_proy + " AND corte='" + corte + "' AND mes='" + mes + "' AND año='" + anio + "'";
-        System.out.println(consulta);
+        String consulta3 = "select Riesgo from riesgos where id_proy = '"+codigo_proy+"' and corte = '" +corte+"' and mes = '"+mes+"' and año = '"+anio+"' order by id asc ";
         control.LlenarJtable(TablaControl_act_realizada, consulta, 1);
         control.LlenarJtable(TablaControl_act_proxima, consulta2, 1);
+        control.LlenarJtable(TablaControlRiesgos, consulta3, 1);
     }//GEN-LAST:event_buscar_fechaActionPerformed
 
     private void tipocorte_cboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipocorte_cboxActionPerformed
@@ -197,6 +235,12 @@ public class Actividades extends javax.swing.JFrame {
     private void jAgregarActBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAgregarActBtnActionPerformed
         invocarCrearAct(codigo_proy);
     }//GEN-LAST:event_jAgregarActBtnActionPerformed
+
+    private void jAgregarRiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAgregarRiesActionPerformed
+        AsignarRiesgo crearriesgo = new AsignarRiesgo(codigo_proy);
+        crearriesgo.setVisible(true);
+        crearriesgo.setLocationRelativeTo(null);
+    }//GEN-LAST:event_jAgregarRiesActionPerformed
 
     /*private void LlenarTablasAct(int codigo_proy){
         control.LimpiarJtable(TablaControl_act_realizada);           
@@ -257,14 +301,17 @@ public class Actividades extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> aniocbox;
     private javax.swing.JButton buscar_fecha;
     private javax.swing.JButton jAgregarActBtn;
+    private javax.swing.JButton jAgregarRies;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable2;
     private javax.swing.JComboBox<String> mescbox;
+    private javax.swing.JTable tablaRiesgos;
     private javax.swing.JComboBox<String> tipocorte_cbox;
     // End of variables declaration//GEN-END:variables
 }

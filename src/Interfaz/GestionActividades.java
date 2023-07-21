@@ -210,7 +210,15 @@ public class GestionActividades extends javax.swing.JFrame {
         corte_txt.setEditable(false);
     }
 
-    public void llenarcamposFecha() {
+    
+    private void TablaActividadesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaActividadesMouseClicked
+        CallableStatement sql;
+        int row = evt.getY() / TablaActividades.getRowHeight();
+        this.filas_selecionada = row;
+        jModificarActBtn.setEnabled(true);
+        jEliminarActBtn.setEnabled(true);        
+    }//GEN-LAST:event_TablaActividadesMouseClicked
+    private void llenarcamposFecha() {
         LocalDate fechaActual = LocalDate.now();
         DateTimeFormatter formatoMes = DateTimeFormatter.ofPattern("MMMM", new Locale("es"));
         String nombreMes = fechaActual.format(formatoMes);
@@ -224,14 +232,6 @@ public class GestionActividades extends javax.swing.JFrame {
         mes_txt.setText(nombreMes.toUpperCase());
         anio_txt.setText(anio);
     }
-    private void TablaActividadesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaActividadesMouseClicked
-        CallableStatement sql;
-        int row = evt.getY() / TablaActividades.getRowHeight();
-        this.filas_selecionada = row;
-        jModificarActBtn.setEnabled(true);
-        jEliminarActBtn.setEnabled(true);        
-    }//GEN-LAST:event_TablaActividadesMouseClicked
-
     private void tipoact_cboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoact_cboxActionPerformed
         Object selectedItem = tipoact_cbox.getSelectedItem();
         String tipo_act = selectedItem.toString();
@@ -248,7 +248,6 @@ public class GestionActividades extends javax.swing.JFrame {
         String mes = mes_txt.getText();
         String corte = corte_txt.getText();
         control.llenarIdsActividades(id_actividades, cod_proyecto, mes, tipo_act, corte);
-        System.out.println(id_actividades);
     }
 
 
@@ -311,9 +310,9 @@ public class GestionActividades extends javax.swing.JFrame {
             String mes = mes_txt.getText();
             String corte = corte_txt.getText();
             String act = control.DevolverRegistroBD("select actividad from actividades WHERE id_proy='" + cod_proyecto + "'AND mes='" + mes + "' AND tipo_act='" + tipo_act + "' AND corte='" + corte + "' order by id asc", 1);
-            System.out.println(cod_proyecto);
-            System.out.println(selectedRow);
-            System.out.println(id_actividades.get(selectedRow));
+//            System.out.println(cod_proyecto);
+//            System.out.println(selectedRow);
+//            System.out.println(id_actividades.get(selectedRow));
             jActividad_txt.setText(act);           
         }catch(Exception ex){}
     }//GEN-LAST:event_jModificarActBtnActionPerformed
