@@ -186,9 +186,8 @@ public class Principal extends javax.swing.JFrame {
 
     private void actualizar_etapas() {
 
-        //CONDICIONALES POR SI NO EXISTE AVANCE POR ETAPA EN EL PROYECTO
         CallableStatement sql = null, sql_fin;
-        String etapa = "", etapa_asignada = "", consistencia;
+        String etapa = "", etapa_asignada = "", consistencia, consistencia_principal;
         int avance_num = 0, cond = 0;
         String consulta;
 
@@ -198,10 +197,12 @@ public class Principal extends javax.swing.JFrame {
                     + " ON porcxetapa.id = cartera_proyectos.id_proy "
                     + " where cartera_proyectos.id_proy = '" + id_proyectos.get(j) + "' and  cartera_proyectos.fase = porcxetapa.etapa";
             etapa = control.DevolverRegistroBD(consulta, 1);
+            consistencia_principal = control.DevolverRegistroBD(consulta, 1);
             consistencia = control.DevolverRegistroBD(consulta, 2);
-            if ("".equals(consistencia)) {
-                break;
-            }
+            if("".equals(consistencia_principal)){   //CONSISTENCIA POR SI NO EXISTE LA FASE EN LA TABLA PORCXETAPA
+                continue;}
+            if (consistencia == null) { //CONSISTENCIA POR SI NO EXISTE LA PORCENTAJE (FECHAS INICIO Y FIN) DE LA ETAPA EN LA TABLA PORCXETAPA
+                continue;}
             avance_num = Integer.parseInt(control.DevolverRegistroBD(consulta, 2));
             if (avance_num == 100) {
                 try {
@@ -222,7 +223,7 @@ public class Principal extends javax.swing.JFrame {
                         case "SEGUIMIENTO" -> {
                             etapa_asignada = "CIERRE";
                             cond = 1;
-                            System.out.println("LE CAMBIE A C");
+                            //System.out.println("LE CAMBIE A Seguimiento");
                         }
                         case "CIERRE" -> {
                             sql_fin = Conexion.getConexion().prepareCall("{CALL finalizar_proyecto(?)}");
@@ -232,21 +233,16 @@ public class Principal extends javax.swing.JFrame {
                             String nombre = control.DevolverRegistroBD(sql_nom, 1);
                             JOptionPane.showMessageDialog(null, "El proyecto " + nombre + " ha finalizado.");
                         }
-                        default ->
-                            System.out.println("QUE FUE MANO, CHECA LA ETAPA/ESTADO.");
                     }
-                    System.out.println("COND = " + cond);
                     if (cond == 1) {
                         try {
                             sql = Conexion.getConexion().prepareCall("{CALL asignar_etapa(?,?)}");
                             sql.setInt(1, id_proyectos.get(j));
                             sql.setString(2, etapa_asignada);
                             sql.executeUpdate();
-                        } catch (Exception ex) {
-                        }
+                        } catch (Exception ex) {}
                     }
-                } catch (Exception ex) {
-                }
+                } catch (Exception ex) {}
             }
         }
     }
@@ -277,7 +273,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_Tabla_ProyectosMouseClicked
 
     private void jCrearProyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCrearProyBtnActionPerformed
-        CrearProyecto crearProy = new CrearProyecto();
+        CrearProyecto crearProy = new CrearProyecto(id_proyectos.size());
         crearProy.setVisible(true);
         crearProy.setLocationRelativeTo(null);
     }//GEN-LAST:event_jCrearProyBtnActionPerformed

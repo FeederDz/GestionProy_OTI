@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.WindowConstants;
 
 /**
@@ -23,10 +24,17 @@ import javax.swing.WindowConstants;
 public class CrearProyecto extends javax.swing.JFrame {
 
     controlador control = new controlador();
-    
-    public CrearProyecto() {
+    int cant_proyectos;
+    public CrearProyecto(int cant) {
         initComponents();
+        this.cant_proyectos = cant + 1;
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, 1, cant_proyectos, 1);
+        prioriSpin.setModel(spinnerModel);
+    }
+
+    private CrearProyecto() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     /**
