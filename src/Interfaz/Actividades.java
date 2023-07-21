@@ -2,7 +2,6 @@ package Interfaz;
 
 import javax.swing.table.DefaultTableModel;
 import Recursos.controlador;
-import java.time.LocalDate;
 import javax.swing.WindowConstants;
 
 /**

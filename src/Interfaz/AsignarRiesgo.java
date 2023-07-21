@@ -19,10 +19,10 @@ import javax.swing.table.DefaultTableModel;
  */
 public class AsignarRiesgo extends javax.swing.JFrame {
 
-    int cont = 0;
+    //int cont = 0;
     int cod_proyecto, filas;
     int filas_selecionada;
-    ArrayList<Integer> id_riesgos = new ArrayList<>();
+    ArrayList<Integer> id_riesgos = new ArrayList<>(); //Recordar que paralelamente a la tabla existe un arraylist de los identificadores. El indice e id se comparte con los de la tabla.
     controlador control = new controlador();
     DefaultTableModel TablaControlRiesgos = new DefaultTableModel() {
         @Override
@@ -61,7 +61,9 @@ public class AsignarRiesgo extends javax.swing.JFrame {
         anio_txt.setEditable(false);
         corte_txt.setEditable(false);
     }
-
+    
+    //Limpiamos en arreglo para volverlo a llenar. Se invoca cuando la cantidad de arreglos se modifica. 
+    //Mejora -> Simplemente añadir o eliminar de la lista cuando su size cambie
     private void llenarIdRiesgos() {
         id_riesgos.clear();
         String mes = mes_txt.getText();
@@ -234,7 +236,8 @@ public class AsignarRiesgo extends javax.swing.JFrame {
         control.exportTableToCSV("riesgo", "Select * from riesgos", "D:/BD OTI GESTION/riesgos.csv");
 
     }//GEN-LAST:event_jAniadirRiesgoBtnActionPerformed
-
+    
+    //Retorna el valor de la fila selecionada en la tabla y habilita el boton Eliminar.
     private void TablaRiesgosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaRiesgosMouseClicked
         int row = evt.getY() / TablaRiesgos.getRowHeight();
         this.filas_selecionada = row;

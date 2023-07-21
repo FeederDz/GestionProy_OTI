@@ -7,14 +7,12 @@ import Recursos.controlador;
 import java.sql.CallableStatement;
 import java.util.ArrayList;
 import javax.swing.JButton;
-import java.sql.ResultSet;
+
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.text.DefaultFormatter;
+
 
 /**
  *
@@ -22,11 +20,7 @@ import javax.swing.text.DefaultFormatter;
  */
 public class Principal extends javax.swing.JFrame {
 
-    //Para el control de actividades 
-    int minValue = 0;
-    int maxValue = 3;
-    int initialValue = 0;
-    int step = 1;
+
     ArrayList<Integer> id_proyectos = new ArrayList<>();
     controlador control = new controlador();
     int fila_proy;
@@ -264,7 +258,7 @@ public class Principal extends javax.swing.JFrame {
             JModificarBtn.setEnabled(true);
             Object value = Tabla_Proyectos.getValueAt(row, column);
             if (value instanceof JButton) {
-                ((JButton) value).doClick();
+                ((JButton) value).doClick(); //Apertura el Frame de Actividades cuando se clickea
                 JButton boton = (JButton) value;
                 codigo_proyecto = id_proyectos.get(row);
                 invocarAct(codigo_proyecto);

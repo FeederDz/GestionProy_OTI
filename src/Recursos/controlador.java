@@ -1,13 +1,8 @@
 package Recursos;
 
 import com.opencsv.CSVWriter;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -15,14 +10,10 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JSpinner;
-import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import javax.swing.text.DefaultFormatter;
 
 /**
@@ -34,7 +25,8 @@ public class controlador extends Conexion {
     public controlador() {
     }
     int r;
-
+    
+    //Devuelvo un arreglo con los identificadores que se encuentran en la consulta
     public void llenarIds(ArrayList<Integer> id_proyectos) {
         String query = "SELECT CARTERA_PROYECTOS.id_proy FROM CARTERA_PROYECTOS WHERE estado = 'EN PROCESO' order by cartera_proyectos.prioridad asc";
         try {
@@ -204,6 +196,9 @@ public class controlador extends Conexion {
         } catch (Exception e) {e.printStackTrace();}
      
     }
+    
+    //Creo una tabla con la consulta tradicional, ademas de agregar Jbutton,JprogressBar y JSpinner
+    //Falta modificar sus atributos -> O es modificable pero no visiblemente util o es util pero no funcionalmente 
 
     public void TablaSpinner(DefaultTableModel mdt, String sql, int tamanio) {
         LimpiarJtable(mdt);
@@ -247,6 +242,7 @@ public class controlador extends Conexion {
 
     }
     
+    //Calcula el avance porcentual a partir de 2 fechas Inicio-Fin
     public int avanceporc(String fechai, String fechaf) {
         LocalDate fechaActual = LocalDate.now();
         float avancepor;
@@ -269,6 +265,7 @@ public class controlador extends Conexion {
         return avancePorcentaje;
     }
     
+    //Exporta una consulta a un formato .csv
     public  void exportTableToCSV(String tableName,String query ,String filePath) {
 
          try {

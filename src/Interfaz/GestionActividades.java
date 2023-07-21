@@ -5,7 +5,6 @@
 package Interfaz;
 
 import Recursos.Conexion;
-import Recursos.RenderTable;
 import Recursos.controlador;
 import java.sql.CallableStatement;
 import java.sql.SQLException;

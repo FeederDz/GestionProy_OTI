@@ -16,7 +16,8 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @author JNUNEZF
  */
 public class RenderTable extends DefaultTableCellRenderer {
-
+    
+    //Sobreescribo el metodo de CellRenderer para que admita en las celas componentes (JButton,JProgressBar,JSpinner)
     @Override
     public Component getTableCellRendererComponent(JTable table, Object objeto_renderizable, boolean isSelected, boolean hasFocus, int row, int column) {
         if(objeto_renderizable instanceof JButton){

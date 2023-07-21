@@ -8,9 +8,6 @@ import Recursos.Conexion;
 import Recursos.controlador;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
-import java.sql.Types;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -27,7 +24,7 @@ public class CrearProyecto extends javax.swing.JFrame {
     int cant_proyectos;
     public CrearProyecto(int cant) {
         initComponents();
-        this.cant_proyectos = cant + 1;
+        this.cant_proyectos = cant + 2;
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, 1, cant_proyectos, 1);
         prioriSpin.setModel(spinnerModel);
