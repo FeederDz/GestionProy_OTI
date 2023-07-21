@@ -212,7 +212,6 @@ public class GestionActividades extends javax.swing.JFrame {
 
     
     private void TablaActividadesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaActividadesMouseClicked
-        CallableStatement sql;
         int row = evt.getY() / TablaActividades.getRowHeight();
         this.filas_selecionada = row;
         jModificarActBtn.setEnabled(true);

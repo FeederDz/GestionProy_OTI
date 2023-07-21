@@ -47,7 +47,7 @@ public class controlador extends Conexion {
             }
         } catch (Exception e) {}
     }
-    
+    //TENER EN CUENTA QUE NO CONSIDERAMOS EL AÑO EN EL LLENADO DE ID'S
     public void llenarIdsActividades(ArrayList<Integer> id_actividades, int cod_proy, String mes, String tipo_act, String corte){
         String query = "select id from actividades WHERE id_proy='" + cod_proy + "'AND mes='" + mes + "' AND tipo_act='" + tipo_act + "' AND corte='" + corte + "' order by id asc";
         try {
@@ -60,9 +60,9 @@ public class controlador extends Conexion {
             }
         } catch (Exception e) {}
     }
-    
+    //TENER EN CUENTA QUE NO CONSIDERAMOS EL AÑO EN EL LLENADO DE ID'S
     public void llenarIdsRiesgos(ArrayList<Integer> id_riesgos, int cod_proy, String mes, String corte){
-        String query = "select id from actividades WHERE id_proy='" + cod_proy + "'AND mes='" + mes + "' AND corte='" + corte + "' order by id asc";
+        String query = "select id from riesgos WHERE id_proy='" + cod_proy + "'AND mes='" + mes + "' AND corte='" + corte + "' order by id asc";
         try {
             this.st = this.getConexion().createStatement();
             this.rs = this.st.executeQuery(query);

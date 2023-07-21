@@ -51,7 +51,7 @@ public class Principal extends javax.swing.JFrame {
         control.exportTableToCSV("cartera_proyectos", "Select * from cartera_proyectos", "D:/BD OTI GESTION/cartera_proyectos.csv");
         control.exportTableToCSV("porcxetapa", "Select * from porcxetapa", "D:/BD OTI GESTION/porcxetapa.csv");
         control.exportTableToCSV("actividades", "Select * from actividades", "D:/BD OTI GESTION/actividades.csv");
-        
+        control.exportTableToCSV("riesgo", "Select * from riesgos", "D:/BD OTI GESTION/riesgos.csv");
     }
 
     @SuppressWarnings("unchecked")
