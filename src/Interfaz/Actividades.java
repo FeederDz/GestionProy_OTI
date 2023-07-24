@@ -14,8 +14,12 @@ public class Actividades extends javax.swing.JFrame {
     int codigo_proy = 0;
     DefaultTableModel TablaControl_act_realizada = new DefaultTableModel();
     DefaultTableModel TablaControl_act_proxima = new DefaultTableModel();
-    DefaultTableModel TablaControlRiesgos = new DefaultTableModel();
-
+    DefaultTableModel TablaControlRiesgos = new DefaultTableModel() {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
     public Actividades(int cod) {
         initComponents();
         this.codigo_proy = cod;
@@ -156,9 +160,7 @@ public class Actividades extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 735, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
@@ -219,6 +221,7 @@ public class Actividades extends javax.swing.JFrame {
         String anio = aniocbox.getSelectedItem().toString();
         control.LimpiarJtable(TablaControl_act_realizada);
         control.LimpiarJtable(TablaControl_act_proxima);
+        control.LimpiarJtable(TablaControlRiesgos);
         String consulta = "select actividad from actividades where tipo_act='REALIZADA' AND id_proy=" + codigo_proy + " AND corte='" + corte + "' AND mes='" + mes + "' AND año='" + anio + "'";
         String consulta2 = "select actividad from actividades where tipo_act='PROXIMA' AND id_proy=" + codigo_proy + " AND corte='" + corte + "' AND mes='" + mes + "' AND año='" + anio + "'";
         String consulta3 = "select Riesgo from riesgos where id_proy = '"+codigo_proy+"' and corte = '" +corte+"' and mes = '"+mes+"' and año = '"+anio+"' order by id asc ";
@@ -241,20 +244,6 @@ public class Actividades extends javax.swing.JFrame {
         crearriesgo.setLocationRelativeTo(null);
     }//GEN-LAST:event_jAgregarRiesActionPerformed
 
-    /*private void LlenarTablasAct(int codigo_proy){
-        control.LimpiarJtable(TablaControl_act_realizada);           
-        control.LlenarJtable(TablaControl_act_realizada,"select actividad from act_realizada where act_realizada.id_proy =" + codigo_proy
-                ,1); 
-        control.LimpiarJtable(TablaControl_act_proxima);           
-        control.LlenarJtable(TablaControl_act_proxima,"select actividad from act_proxima where act_proxima.id_proy =" + + codigo_proy
-                ,1);  
-    }*/
-    private void Cortes() {
-        String consulta = "select act_realizada.fecha_corte from act_realizada group by fecha_corte";
-        tipocorte_cbox.removeAllItems();
-        control.LlenarJcombobox(consulta, 1, tipocorte_cbox);
-    }
-    
     private void invocarCrearAct(int cod_proy) {
         GestionActividades crearact = new GestionActividades(cod_proy);
         crearact.setVisible(true);

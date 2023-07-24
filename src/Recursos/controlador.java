@@ -23,8 +23,6 @@ import javax.swing.text.DefaultFormatter;
 public class controlador extends Conexion {
 
 
-
-    
     //Devuelvo un arreglo con los identificadores que se encuentran en la consulta
     public void llenarIds(ArrayList<Integer> id_proyectos) {
         String query = "SELECT CARTERA_PROYECTOS.id_proy FROM CARTERA_PROYECTOS WHERE estado = 'EN PROCESO' order by cartera_proyectos.prioridad asc";

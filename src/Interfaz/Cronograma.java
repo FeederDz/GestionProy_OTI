@@ -4,13 +4,7 @@ package Interfaz;
 import Recursos.Conexion;
 import Recursos.controlador;
 import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -271,28 +265,6 @@ public class Cronograma extends javax.swing.JFrame {
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboProyectosActionPerformed
-    /* public int avanceporc(String fechai, String fechaf) {
-        LocalDate fechaActual = LocalDate.now();
-        float avancepor;
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-        LocalDate fechaFin = LocalDate.parse(fechaf, formatter);
-        LocalDate fechaInicio = LocalDate.parse(fechai, formatter);
-
-        long diasDiferencia = fechaFin.toEpochDay() - fechaInicio.toEpochDay();
-
-        long diasTranscurridos = fechaActual.toEpochDay() - fechaInicio.toEpochDay();
-
-        avancepor = (diasTranscurridos * 100) / diasDiferencia;
-        if (avancepor > 100) {
-            avancepor = 100;
-        } else if (avancepor < 0) {
-            avancepor = 0;
-        }
-        Integer avancePorcentaje = (int) avancepor;
-        return avancePorcentaje;
-    }*/
 
     private void llenarBarra() {
         JBarraInicio.setValue(0);
@@ -315,18 +287,7 @@ public class Cronograma extends javax.swing.JFrame {
         int cod_proyecto = 0;
         try {
             cod_proyecto = id_proyectos.get(filaseleccionada);
-            //System.out.println("captura id");
 
-
-            /*JBarraInicio.setUI(new BasicProgressBarUI() {
-                protected Color getSelectionBackground() {
-                    return Color.RED; // Cambiar el color de la selección
-                }
-
-                protected Color getSelectionForeground() {
-                    return Color.WHITE; // Cambiar el color del texto de la selección
-                }
-            });*/
             int avanINI = control.avanceporc(jTextField1.getText(), jTextField2.getText());
             int avanPLANI = control.avanceporc(jTextField3.getText(), jTextField4.getText());
             int avanEJEC = control.avanceporc(jTextField5.getText(), jTextField6.getText());
