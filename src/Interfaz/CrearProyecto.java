@@ -24,7 +24,7 @@ public class CrearProyecto extends javax.swing.JFrame {
     int cant_proyectos;
     public CrearProyecto(int cant) {
         initComponents();
-        this.cant_proyectos = cant + 2;
+        this.cant_proyectos = cant + 1;
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, 1, cant_proyectos, 1);
         prioriSpin.setModel(spinnerModel);
@@ -215,7 +215,7 @@ public class CrearProyecto extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(CrearProyecto.class.getName()).log(Level.SEVERE, null, ex);
         }
-        JOptionPane.showMessageDialog(null, "Proyecto Creacon con Éxito.");
+        JOptionPane.showMessageDialog(null, "Proyecto creado con con Éxito.");
         control.exportTableToCSV("cartera_proyectos", "Select * from cartera_proyectos", "D:/BD OTI GESTION/cartera_proyectos.csv");
         dispose();
         

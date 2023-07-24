@@ -22,9 +22,8 @@ import javax.swing.text.DefaultFormatter;
  */
 public class controlador extends Conexion {
 
-    public controlador() {
-    }
-    int r;
+
+
     
     //Devuelvo un arreglo con los identificadores que se encuentran en la consulta
     public void llenarIds(ArrayList<Integer> id_proyectos) {
