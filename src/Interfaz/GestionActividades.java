@@ -271,7 +271,7 @@ public class GestionActividades extends javax.swing.JFrame {
                 sql.setString(6,anio );
                 sql.executeUpdate();
             } catch (SQLException ex) {
-                Logger.getLogger(CrearProyecto.class.getName()).log(Level.SEVERE, null, ex);}     
+                Logger.getLogger(GestionActividades.class.getName()).log(Level.SEVERE, null, ex);}     
         } else {
             JOptionPane.showMessageDialog(null, "Ingrese una actividad");
         }

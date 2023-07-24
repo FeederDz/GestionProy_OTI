@@ -78,10 +78,9 @@ public class AsignarRiesgo extends javax.swing.JFrame {
         String anio = String.valueOf(fechaActual.getYear());
         int dia = fechaActual.getDayOfMonth();
         if (dia >= 12 || dia < 28) {
-            corte_txt.setText("PRIMERO");
-        } else if (dia >= 28 || dia <= 7) {
-            corte_txt.setText("SEGUNDO");
-        }
+            corte_txt.setText("PRIMERO");} 
+        else if (dia >= 28 || dia <= 7) {
+            corte_txt.setText("SEGUNDO");}
         mes_txt.setText(nombreMes.toUpperCase());
         anio_txt.setText(anio);
     }
@@ -226,7 +225,7 @@ public class AsignarRiesgo extends javax.swing.JFrame {
                 sql.setString(5, anio);
                 sql.executeUpdate();
             } catch (SQLException ex) {
-                Logger.getLogger(CrearProyecto.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AsignarRiesgo.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Ingrese un riesgo");
@@ -249,7 +248,7 @@ public class AsignarRiesgo extends javax.swing.JFrame {
         int selectedRow = TablaRiesgos.getSelectedRow();
         TablaControlRiesgos.removeRow(selectedRow);
         try {
-            sql = Conexion.getConexion().prepareCall("{CALL [sp_eliminar_riesgo](?)}");
+            sql = Conexion.getConexion().prepareCall("{CALL sp_eliminar_riesgo(?)}");
             sql.setInt(1, id_riesgos.get(filas_selecionada));
             sql.executeUpdate();
             System.out.println(selectedRow);

@@ -193,7 +193,6 @@ public class Principal extends javax.swing.JFrame {
             etapa = control.DevolverRegistroBD(consulta, 1);
             consistencia_principal = control.DevolverRegistroBD(consulta, 1);
             consistencia = control.DevolverRegistroBD(consulta, 2);
-            System.out.println(consulta);
             if("".equals(consistencia_principal)){   //CONSISTENCIA POR SI NO EXISTE LA FASE EN LA TABLA PORCXETAPA
                 continue;}
             if (consistencia == null) { //CONSISTENCIA POR SI NO EXISTE LA PORCENTAJE (FECHAS INICIO Y FIN) DE LA ETAPA EN LA TABLA PORCXETAPA
