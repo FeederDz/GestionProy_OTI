@@ -12,9 +12,19 @@ public class Actividades extends javax.swing.JFrame {
 
     controlador control = new controlador();
     int codigo_proy = 0;
-    DefaultTableModel TablaControl_act_realizada = new DefaultTableModel();
-    DefaultTableModel TablaControl_act_proxima = new DefaultTableModel();
     DefaultTableModel TablaControlRiesgos = new DefaultTableModel() {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+    DefaultTableModel TablaControl_act_proxima = new DefaultTableModel() {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+    DefaultTableModel TablaControl_act_realizada = new DefaultTableModel() {
         @Override
         public boolean isCellEditable(int row, int column) {
             return false;
