@@ -77,9 +77,9 @@ public class AsignarRiesgo extends javax.swing.JFrame {
         String nombreMes = fechaActual.format(formatoMes);
         String anio = String.valueOf(fechaActual.getYear());
         int dia = fechaActual.getDayOfMonth();
-        if (dia >= 12 || dia < 28) {
+        if (dia >= 12 && dia < 28) {
             corte_txt.setText("PRIMERO");} 
-        else if (dia >= 28 || dia <= 7) {
+        else {
             corte_txt.setText("SEGUNDO");}
         mes_txt.setText(nombreMes.toUpperCase());
         anio_txt.setText(anio);

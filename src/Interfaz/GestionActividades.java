@@ -222,13 +222,16 @@ public class GestionActividades extends javax.swing.JFrame {
         String nombreMes = fechaActual.format(formatoMes);
         String anio = String.valueOf(fechaActual.getYear());
         int dia = fechaActual.getDayOfMonth();
-        if (dia >= 12 || dia < 28) {
+        if (dia >= 12 && dia < 28) {
             corte_txt.setText("PRIMERO");
-        } else if (dia >= 28 || dia <= 7) {
+            System.out.println("Estoy en el primer corte");
+        } else {
             corte_txt.setText("SEGUNDO");
+            System.out.println("Estoy en el segundo corte");
         }
         mes_txt.setText(nombreMes.toUpperCase());
         anio_txt.setText(anio);
+        System.out.println(dia);
     }
     private void tipoact_cboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoact_cboxActionPerformed
         Object selectedItem = tipoact_cbox.getSelectedItem();
