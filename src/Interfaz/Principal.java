@@ -63,13 +63,13 @@ public class Principal extends javax.swing.JFrame {
 
         Tabla_Proyectos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Prioridad", "Código Proyecto", "Nombre Proyecto", "Sponsor", "Gestor", "Fase", "Fecha Inicio", "Fecha Fin", "Avance", "Actividades"
             }
         ));
         Tabla_Proyectos.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -78,6 +78,9 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(Tabla_Proyectos);
+        if (Tabla_Proyectos.getColumnModel().getColumnCount() > 0) {
+            Tabla_Proyectos.getColumnModel().getColumn(2).setPreferredWidth(80);
+        }
 
         jButton1.setText("Actualizar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
