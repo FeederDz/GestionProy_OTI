@@ -3,6 +3,7 @@ package Interfaz;
 
 import Recursos.Conexion;
 import Recursos.controlador;
+import static java.lang.Integer.parseInt;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -39,6 +40,8 @@ public class Cronograma extends javax.swing.JFrame {
     private void initComponents() {
 
         jSlider1 = new javax.swing.JSlider();
+        jTextField12 = new javax.swing.JTextField();
+        jTextField14 = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jComboProyectos = new javax.swing.JComboBox<>();
         jActIniCrBtn = new javax.swing.JButton();
@@ -66,6 +69,12 @@ public class Cronograma extends javax.swing.JFrame {
         jTextField9 = new javax.swing.JTextField();
         jTextField10 = new javax.swing.JTextField();
         JBarraCierre = new javax.swing.JProgressBar();
+        jLabel11 = new javax.swing.JLabel();
+        real_ini = new javax.swing.JTextField();
+        real_plan = new javax.swing.JTextField();
+        real_eje = new javax.swing.JTextField();
+        real_cierre = new javax.swing.JTextField();
+        real_segui = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,7 +94,7 @@ public class Cronograma extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setText("Porcentaje");
+        jLabel9.setText("Porcentaje Real");
 
         jLabel8.setText("Fecha de Fin");
 
@@ -103,13 +112,20 @@ public class Cronograma extends javax.swing.JFrame {
 
         jLabel6.setText("CIERRE");
 
+        jLabel11.setText("Porcentaje");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addGap(18, 18, 18)
+                        .addComponent(jComboProyectos, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(54, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -144,27 +160,39 @@ public class Cronograma extends javax.swing.JFrame {
                                 .addComponent(jTextField6)
                                 .addComponent(jTextField8)
                                 .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(JBarraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jActIniCrBtn))
-                            .addGroup(layout.createSequentialGroup()
+                                .addGap(40, 40, 40)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(JBarraPlanificación, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(JBarraEjecucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(JBarraSeguimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(45, 45, 45)
-                                        .addComponent(jLabel9))
-                                    .addComponent(JBarraCierre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel10)
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboProyectos, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                                        .addComponent(JBarraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jActIniCrBtn)
+                                            .addComponent(real_ini, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(JBarraPlanificación, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(real_plan, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(JBarraEjecucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(real_eje, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(JBarraSeguimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(real_segui, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(JBarraCierre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(real_cierre, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(79, 79, 79)
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel9)
+                                .addGap(14, 14, 14)))
+                        .addGap(18, 18, 18))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -174,38 +202,54 @@ public class Cronograma extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jComboProyectos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(jActIniCrBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(50, 50, 50)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel8))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel11)
+                                    .addComponent(jLabel9))
+                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel10)
-                                            .addComponent(jComboProyectos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jActIniCrBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(50, 50, 50)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                .addComponent(jLabel1)
-                                                .addComponent(jLabel7)
-                                                .addComponent(jLabel8)))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(JBarraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(JBarraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(real_ini, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
                                 .addGap(21, 21, 21)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel3)
                                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(JBarraPlanificación, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(real_plan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(JBarraPlanificación, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(17, 17, 17)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel4)
+                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(real_eje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(17, 17, 17)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(JBarraEjecucion, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(JBarraEjecucion, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -221,7 +265,11 @@ public class Cronograma extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(JBarraSeguimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(JBarraCierre, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(JBarraCierre, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(real_segui, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(real_cierre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(46, 46, 46))
         );
 
@@ -247,7 +295,7 @@ public class Cronograma extends javax.swing.JFrame {
             fechas[7] = control.DevolverRegistroBD("Select fecha_fin from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'SEGUIMIENTO'", 1);
             fechas[8] = control.DevolverRegistroBD("Select fecha_ini from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'CIERRE'", 1);
             fechas[9] = control.DevolverRegistroBD("Select fecha_fin from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'CIERRE'", 1);
-
+            
             jTextField1.setText(fechas[0]);
             jTextField2.setText(fechas[1]);
             jTextField3.setText(fechas[2]);
@@ -258,8 +306,15 @@ public class Cronograma extends javax.swing.JFrame {
             jTextField8.setText(fechas[7]);
             jTextField9.setText(fechas[8]);
             jTextField10.setText(fechas[9]);
-
             llenarBarra();
+            
+            real_ini.setText(control.DevolverRegistroBD("Select porcentaje_real from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'INICIO'", 1));
+            real_plan.setText(control.DevolverRegistroBD("Select porcentaje_real from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'PLANIFICACION'", 1));
+            real_eje.setText(control.DevolverRegistroBD("Select porcentaje_real from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'EJECUCION'", 1));
+            real_segui.setText(control.DevolverRegistroBD("Select porcentaje_real from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'SEGUIMIENTO'", 1));
+            real_cierre.setText(control.DevolverRegistroBD("Select porcentaje_real from porcxetapa where porcxetapa.id = '" + cod_proyecto + "' and etapa = 'CIERRE'", 1));
+                                        
+            
 
         } catch (Exception e) {
         }
@@ -290,6 +345,7 @@ public class Cronograma extends javax.swing.JFrame {
 
             int avanINI = control.avanceporc(jTextField1.getText(), jTextField2.getText());
             int avanPLANI = control.avanceporc(jTextField3.getText(), jTextField4.getText());
+            System.out.println( "PLANIFICACION PORCENTAJE: " +  avanPLANI + " calculado");
             int avanEJEC = control.avanceporc(jTextField5.getText(), jTextField6.getText());
             int avanSEGUI = control.avanceporc(jTextField7.getText(), jTextField8.getText());
             int avanCIER = control.avanceporc(jTextField9.getText(), jTextField10.getText());
@@ -307,8 +363,8 @@ public class Cronograma extends javax.swing.JFrame {
                         try {
                             sql.close();
                         }catch (SQLException e) {} 
-                    }
-                } 
+                    } 
+            } 
             try {
                 sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_avance(?,?,?)}");
                 sql.setInt(1, cod_proyecto);
@@ -317,13 +373,7 @@ public class Cronograma extends javax.swing.JFrame {
                 sql.executeUpdate();
             } catch (SQLException ex) {
                 Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
-            }finally{
-                    if (sql != null) {
-                        try {
-                            sql.close();
-                        }catch (SQLException e) {} 
-                    }
-            } 
+            }
             try {
                 sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_avance(?,?,?)}");
                 sql.setInt(1, cod_proyecto);
@@ -332,13 +382,7 @@ public class Cronograma extends javax.swing.JFrame {
                 sql.executeUpdate();
             } catch (SQLException ex) {
                 Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
-            }finally{
-                    if (sql != null) {
-                        try {
-                            sql.close();
-                        }catch (SQLException e) {} 
-                    }
-            } 
+            }
             try {
                 sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_avance(?,?,?)}");
                 sql.setInt(1, cod_proyecto);
@@ -347,13 +391,7 @@ public class Cronograma extends javax.swing.JFrame {
                 sql.executeUpdate();
             } catch (SQLException ex) {
                 Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
-            }finally{
-                    if (sql != null) {
-                        try {
-                            sql.close();
-                        }catch (SQLException e) {} 
-                    }
-            } 
+            }
             try {
                 sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_avance(?,?,?)}");
                 sql.setInt(1, cod_proyecto);
@@ -362,12 +400,6 @@ public class Cronograma extends javax.swing.JFrame {
                 sql.executeUpdate();
             } catch (SQLException ex) {
                 Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
-            }finally{
-                    if (sql != null) {
-                        try {
-                            sql.close();
-                        }catch (SQLException e) {} 
-                    }
             } 
 
             JBarraInicio.setValue(avanINI);
@@ -375,7 +407,7 @@ public class Cronograma extends javax.swing.JFrame {
 
             JBarraPlanificación.setValue(avanPLANI);
             JBarraPlanificación.setStringPainted(true);
-
+            System.out.println( "PLANIFICACION PORCENTAJE: " +  avanPLANI + " impreso");
             JBarraEjecucion.setValue(avanEJEC);
             JBarraEjecucion.setStringPainted(true);
 
@@ -392,95 +424,76 @@ public class Cronograma extends javax.swing.JFrame {
     private void jActIniCrBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jActIniCrBtnActionPerformed
         CallableStatement sql = null;
         int filaseleccionada = jComboProyectos.getSelectedIndex();
-        int cod_proyecto = 0;
+        int cod_proyecto = 0,ini_real;
         if (filaseleccionada != -1) {
             cod_proyecto = id_proyectos.get(filaseleccionada);
         } 
+        System.out.println(real_ini.getText());
+        ini_real = Integer.parseInt(real_ini.getText());
+        System.out.println("Entero el real inicio " + ini_real);
         try {
-            sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_fechaxetapa(?,?,?,?)}");
+            sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_fechaxetapa(?,?,?,?,?)}");
             sql.setInt(1, cod_proyecto);
             sql.setString(2, "INICIO");
             sql.setString(3, jTextField1.getText());
             sql.setString(4, jTextField2.getText());
+            sql.setInt(5, Integer.parseInt(real_ini.getText()));
             sql.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (sql != null) {
-                try {
-                    sql.close();
-                } catch (SQLException e) {}
-            }
         }
 
         try {
-            sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_fechaxetapa(?,?,?,?)}");
+            sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_fechaxetapa(?,?,?,?,?)}");
             sql.setInt(1, cod_proyecto);
             sql.setString(2, "PLANIFICACION");
             sql.setString(3, jTextField3.getText());
             sql.setString(4, jTextField4.getText());
+            sql.setInt(5, Integer.parseInt(real_plan.getText()));
             sql.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (sql != null) {
-                try {
-                    sql.close();
-                } catch (SQLException e) {}
-            }
         }
 
         try {
-            sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_fechaxetapa(?,?,?,?)}");
+            sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_fechaxetapa(?,?,?,?,?)}");
             sql.setInt(1, cod_proyecto);
             sql.setString(2, "EJECUCION");
             sql.setString(3, jTextField5.getText());
             sql.setString(4, jTextField6.getText());
+            sql.setInt(5, Integer.parseInt(real_eje.getText()));
             sql.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (sql != null) {
-                try {
-                    sql.close();
-                } catch (SQLException e) {}
-            }
         }
 
         try {
-            sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_fechaxetapa(?,?,?,?)}");
+            sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_fechaxetapa(?,?,?,?,?)}");
             sql.setInt(1, cod_proyecto);
             sql.setString(2, "SEGUIMIENTO");
             sql.setString(3, jTextField7.getText());
             sql.setString(4, jTextField8.getText());
+            sql.setInt(5, Integer.parseInt(real_segui.getText()));
             sql.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (sql != null) {
-                try {
-                    sql.close();
-                } catch (SQLException e) {}
-            }
-        }
+        } 
 
         try {
-            sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_fechaxetapa(?,?,?,?)}");
+            sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_fechaxetapa(?,?,?,?,?)}");
             sql.setInt(1, cod_proyecto);
             sql.setString(2, "CIERRE");
             sql.setString(3, jTextField9.getText());
             sql.setString(4, jTextField10.getText());
+            sql.setInt(5, Integer.parseInt(real_cierre.getText()));
             sql.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Cronograma.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (sql != null) {
-                try {
-                    sql.close();
-                } catch (SQLException e) {}
-            }
         }
+        
+        System.out.println("Ejecutaron los procedimientos");
         llenarBarra();
+        System.out.println("cargo tabla");
         control.exportTableToCSV("porcxetapa", "Select * from porcxetapa", "D:/BD OTI GESTION/porcxetapa.csv");
 
     }//GEN-LAST:event_jActIniCrBtnActionPerformed
@@ -531,6 +544,7 @@ public class Cronograma extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboProyectos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -542,6 +556,8 @@ public class Cronograma extends javax.swing.JFrame {
     private javax.swing.JSlider jSlider1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
+    private javax.swing.JTextField jTextField12;
+    private javax.swing.JTextField jTextField14;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
@@ -550,6 +566,11 @@ public class Cronograma extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField real_cierre;
+    private javax.swing.JTextField real_eje;
+    private javax.swing.JTextField real_ini;
+    private javax.swing.JTextField real_plan;
+    private javax.swing.JTextField real_segui;
     // End of variables declaration//GEN-END:variables
 }
 // PROBAR ESTO LUEGO  --->
