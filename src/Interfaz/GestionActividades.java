@@ -222,12 +222,10 @@ public class GestionActividades extends javax.swing.JFrame {
         String nombreMes = fechaActual.format(formatoMes);
         String anio = String.valueOf(fechaActual.getYear());
         int dia = fechaActual.getDayOfMonth();
-        if (dia >= 12 && dia < 28) {
+        if (dia >= 11 && dia <= 18) {
             corte_txt.setText("PRIMERO");
-            System.out.println("Estoy en el primer corte");
         } else {
             corte_txt.setText("SEGUNDO");
-            System.out.println("Estoy en el segundo corte");
         }
         mes_txt.setText(nombreMes.toUpperCase());
         anio_txt.setText(anio);
