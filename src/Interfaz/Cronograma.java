@@ -428,9 +428,6 @@ public class Cronograma extends javax.swing.JFrame {
         if (filaseleccionada != -1) {
             cod_proyecto = id_proyectos.get(filaseleccionada);
         } 
-        System.out.println(real_ini.getText());
-        ini_real = Integer.parseInt(real_ini.getText());
-        System.out.println("Entero el real inicio " + ini_real);
         try {
             sql = Conexion.getConexion().prepareCall("{CALL sp_modificar_fechaxetapa(?,?,?,?,?)}");
             sql.setInt(1, cod_proyecto);
